@@ -35,3 +35,21 @@ type FakeReturnType2<T> = T extends ((...args: any) => infer R extends string)
   : never;
 
 type FuncResult2 = FakeReturnType2<typeof myString>;
+
+type GetFromDeepObject<T> = T extends {
+  a: {
+    b: {
+      c: infer C;
+    };
+  };
+}
+  ? C
+  : never;
+
+type C = GetFromDeepObject<{
+  a: {
+    b: {
+      c: boolean;
+    };
+  };
+}>;
