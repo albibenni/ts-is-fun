@@ -13,14 +13,14 @@
     }
   },
   "compilerOptions": {
-    // "lib": ["ESNext"],
+    "outDir": "dist",
+    "lib": ["ESNext"],
     "module": "CommonJS",
     "target": "es2022",
     "strict": true,
     "noUncheckedIndexedAccess": true,
     "esModuleInterop": true,
     "skipLibCheck": true,
-    "noEmit": true,
     "forceConsistentCasingInFileNames": true
     // "moduleResolution": "node16"
   },
