@@ -1,0 +1,21 @@
+{
+  "name": "ts-testing-project",
+  "version": "1.0.0",
+  "description": "My testing project",
+  "main": ".dist/index.js",
+  "scripts": {
+    "dev": "ts-node src/index.ts"
+  },
+  "keywords": [],
+  "author": "Alberto Benatti",
+  "license": "ISC",
+  "devDependencies": {
+    "@changesets/cli": "^2.26.2",
+    "@types/node": "^20",
+    "eslint": "^8",
+    "ts-node": "^10.9.1",
+    "tsup": "^7.2.0",
+    "typescript": "^5",
+    "vitest": "^0.34.6"
+  }
+}
