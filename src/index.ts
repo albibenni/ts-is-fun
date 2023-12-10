@@ -8,5 +8,5 @@ import { str } from "./type-test/infer";
 // test();
 // console.log(str());
 
-logCwt();
-dirName();
+// logCwt();
+// dirName();
