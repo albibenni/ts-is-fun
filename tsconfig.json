@@ -1,28 +1,15 @@
 {
-  "extends": "ts-node/node16/tsconfig.json",
-  // Most ts-node options can be specified here using their programmatic names.
-  "ts-node": {
-    // It is faster to skip typechecking.
-    // Remove if you want ts-node to do typechecking.
-    "transpileOnly": true,
-    "files": true,
-    "compilerOptions": {
-      // compilerOptions specified here will override those declared below,
-      // but *only* in ts-node.  Useful if you want ts-node and tsc to use
-      // different options with a single tsconfig.json.
-    }
-  },
   "compilerOptions": {
     "outDir": "dist",
     "lib": ["ESNext"],
-    "module": "CommonJS",
-    "target": "es2022",
+    "module": "NodeNext",
+    "target": "es2020",
+    "moduleResolution": "NodeNext",
+    "sourceMap": true,
     "strict": true,
     "noUncheckedIndexedAccess": true,
     "esModuleInterop": true,
-    "skipLibCheck": true,
-    "forceConsistentCasingInFileNames": true
-    // "moduleResolution": "node16"
+    "skipLibCheck": true
   },
-  "include": ["src"]
+  "include": ["src/**/*"]
 }
