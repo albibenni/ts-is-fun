@@ -1,5 +1,5 @@
-import { dirName, logCwt } from "./node-functions/cwd";
-import { str } from "./type-test/infer";
+import { dirName, logCwt } from "./node-functions/cwd.js";
+import { str } from "./type-test/infer.js";
 
 // const test = () => {
 //   console.log("Es running ");
@@ -10,3 +10,4 @@ import { str } from "./type-test/infer";
 
 // logCwt();
 // dirName();
+console.log("Hello World");
