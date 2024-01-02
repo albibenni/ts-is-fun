@@ -1,5 +1,5 @@
 // Example 1 - incorrect use of satisfy
-const scores: Record<string, number> = {}; // record usage used as example
+const scores: Record<string, number> = {}; // record usage used as example - record widen the type of the key
 scores.english = 100;
 scores.maths = 100;
 
@@ -12,7 +12,7 @@ const scoresIncorrectUseOfSatisfy = {} satisfies Record<string, number>;
 const config = {
   wide: "100px",
   narrow: 0,
-} satisfies Record<string, string | number>;
+} satisfies Record<string, string | number>; //* enforcement on the value
 config.wide;
 //      ^?
 config.narrow;
