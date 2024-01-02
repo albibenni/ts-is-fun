@@ -1,8 +1,12 @@
 import http from "http";
 
-const server = http.createServer((req, res) => {
+const requestListener: http.RequestListener = (req, res) => {
   res.writeHead(200, { "Content-Type": "text/plain" });
   res.end("Hello, Node!");
+};
+
+const server = http.createServer((req, res) => {
+  requestListener(req, res);
 });
 
 // Start the server and listen on the specified port
