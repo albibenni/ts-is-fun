@@ -3,23 +3,26 @@
   "version": "1.0.0",
   "description": "My testing project",
   "main": ".dist/index.js",
-  "type": "module",
   "scripts": {
     "build": "tsc -w",
-    "express": "node --loader ts-node/esm src/express-node/app.ts"
+    "express": "ts-node src/express-node/app.ts",
+    "express-js": "nodemon dist/express-node/app.js"
   },
   "keywords": [],
   "author": "Alberto Benatti",
   "license": "ISC",
   "devDependencies": {
-    "@types/jest": "^29.5.11",
-    "jest": "^29.7.0",
     "@changesets/cli": "^2.26.2",
+    "@types/express": "^4.17.21",
+    "@types/jest": "^29.5.11",
     "@types/node": "^20",
     "eslint": "^8",
+    "express": "^4.18.2",
+    "jest": "^29.7.0",
+    "nodemon": "^3.0.2",
+    "ts-node": "^10.9.2",
     "tsup": "^7.2.0",
     "typescript": "^5.3.3",
-    "ts-node": "^10.9.2",
     "vitest": "^0.34.6"
   },
   "engines": {
