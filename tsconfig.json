@@ -1,18 +1,3 @@
-// {
-//   "compilerOptions": {
-//     "outDir": "dist",
-//     "module": "CommonJS",
-//     "target": "es2020",
-//     "strict": true,
-//     // "sourceMap": true,                                /* Create source map files for emitted JavaScript files. */
-//     "forceConsistentCasingInFileNames": true /* Ensure that casing is correct in imports. */,
-//     "noUncheckedIndexedAccess": true,
-//     "esModuleInterop": true,
-//     "skipLibCheck": true
-//   },
-//   "include": ["src/**/*"]
-// }
-
 {
   "compilerOptions": {
     /* Visit https://aka.ms/tsconfig to read more about this file */
