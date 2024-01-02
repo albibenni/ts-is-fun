@@ -5,7 +5,8 @@
   "main": ".dist/index.js",
   "type": "module",
   "scripts": {
-    "build": "tsc -w"
+    "build": "tsc -w",
+    "day22": "node --loader ts-node/esm src/express-node/app.ts"
   },
   "keywords": [],
   "author": "Alberto Benatti",
