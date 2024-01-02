@@ -14,3 +14,8 @@ const floor = Math.floor(1.4);
 const round = Math.round(1.4);
 // ^?
 log("Ceiling, floor and Round: ", ceiling, floor, round);
+
+const random = Math.random();
+log("Random number: ", random);
+const myRandom = Math.floor(Math.random() * 10);
+log("Random number between 0 and 10: ", myRandom);
