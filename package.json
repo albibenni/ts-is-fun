@@ -6,6 +6,7 @@
   "scripts": {
     "build": "tsc -w",
     "express": "ts-node src/express-node/app.ts",
+    "native-http": "ts-node src/native-node/app.ts",
     "express-js": "nodemon dist/express-node/app.js"
   },
   "keywords": [],
