@@ -1,8 +1,10 @@
 import { log } from "console";
 import http from "http";
+import fs from "fs";
 
 const requestListener: http.RequestListener = (req, res) => {
   const url = req.url;
+  const method = req.method;
   if (url === "/") {
     res.write("<html>");
     res.write("<head><title>Enter Message</title></head>");
@@ -10,6 +12,28 @@ const requestListener: http.RequestListener = (req, res) => {
       "<body><form action='/message' method='POST'><input type='text' name='message'><button type='submit'>Send</button></input></form></body>",
     );
     res.write("</head>");
+    return res.end();
+  }
+  if (url === "/message" && method === "POST") {
+    const body: any[] = [];
+    req.on("data", (chunk) => {
+      body.push(chunk);
+    });
+    req.on("end", () => {
+      const parsedBody = Buffer.concat(body).toString();
+      const [_, message] = parsedBody.split("=");
+      fs.writeFileSync("./src/http-node/message.txt", message);
+    });
+    // fs.writeFileSync("./src/http-node/message.txt", "DUMMY");
+    res.writeHead(302, { Location: "/" });
+    /**
+     * 302: Redirect
+     */
+    /**
+     * could also use:
+     * res.statusCode = 302;
+     * res.setHeader("Location", "/");
+     */
     return res.end();
   }
   res.setHeader("Content-Type", "text/html");
