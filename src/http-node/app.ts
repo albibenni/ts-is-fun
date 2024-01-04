@@ -1,7 +1,11 @@
 import http from "http";
 
 const requestListener: http.RequestListener = (req, res) => {
-  res.writeHead(200, { "Content-Type": "text/plain" });
+  res.setHeader("Content-Type", "text/html");
+  res.write("<html>");
+  res.write("<head><title>My Node App</title></head>");
+  res.write("<body><h1>Hello, Node!</h1></body>");
+  res.write("</head>");
   res.end("Hello, Node!");
 };
 
