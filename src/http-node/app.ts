@@ -1,5 +1,5 @@
-import { log } from "console";
-import http from "http";
+import { connect } from "node:net";
+import http from "node:http";
 import fs from "fs";
 
 const requestListener: http.RequestListener = (req, res) => {
@@ -46,6 +46,21 @@ const requestListener: http.RequestListener = (req, res) => {
 
 const server = http.createServer((req, res) => {
   requestListener(req, res);
+});
+
+server.on("connect", (req, clientSocket, head) => {
+  // Connect to an origin server
+  const { port, hostname } = new URL(`http://${req.url}`);
+  const serverSocket = connect(Number(port) || 80, hostname, () => {
+    clientSocket.write(
+      "HTTP/1.1 200 Connection Established\r\n" +
+        "Proxy-agent: Node.js-Proxy\r\n" +
+        "\r\n",
+    );
+    serverSocket.write(head);
+    serverSocket.pipe(clientSocket);
+    clientSocket.pipe(serverSocket);
+  });
 });
 
 // Start the server and listen on the specified port
