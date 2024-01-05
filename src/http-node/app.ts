@@ -23,18 +23,17 @@ const requestListener: http.RequestListener = (req, res) => {
       const parsedBody = Buffer.concat(body).toString();
       const [_, message] = parsedBody.split("=");
       fs.writeFileSync("./src/http-node/message.txt", message);
+      res.writeHead(302, { Location: "/" });
+      /**
+       * 302: Redirect
+       */
+      /**
+       * could also use:
+       * res.statusCode = 302;
+       * res.setHeader("Location", "/");
+       */
+      return res.end();
     });
-    // fs.writeFileSync("./src/http-node/message.txt", "DUMMY");
-    res.writeHead(302, { Location: "/" });
-    /**
-     * 302: Redirect
-     */
-    /**
-     * could also use:
-     * res.statusCode = 302;
-     * res.setHeader("Location", "/");
-     */
-    return res.end();
   }
   res.setHeader("Content-Type", "text/html");
   res.write("<html>");
