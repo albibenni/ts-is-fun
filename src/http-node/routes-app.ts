@@ -46,3 +46,39 @@ export const requestHandler = (
   res.write("</head>");
   res.end();
 };
+
+export const requestUserHandler = (
+  req: http.IncomingMessage,
+  res: http.ServerResponse,
+) => {
+  const url = req.url;
+  const method = req.method;
+
+  if (url === "/users") {
+    res.write("<html>");
+    res.write("<ul><li>a</li><li>b</li></ul>");
+    res.write("</html>");
+    return res.end();
+  }
+  if (url === "/create-user" && method === "POST") {
+    const body: any[] = [];
+    req.on("data", (chunk) => {
+      body.push(chunk);
+    });
+
+    res.on("end", () => {
+      const parsedBody = Buffer.concat(body).toString();
+      const message = parsedBody.split("=")[1];
+      res.setHeader("Location", "/");
+      return res.end();
+    });
+  }
+
+  res.setHeader("Content-Type", "text/html");
+  res.write("<html>");
+  res.write(
+    '<form action="/create-user" method="POST"><input type="text" name="username"></input><button onclick="submit">submit</button></form>',
+  );
+  res.write("</html>");
+  res.end();
+};
