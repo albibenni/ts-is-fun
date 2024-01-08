@@ -1,9 +1,9 @@
 import fs from "fs";
 import type http from "node:http";
 
-const requestHandler = (
-  res: http.ServerResponse,
+export const requestHandler = (
   req: http.IncomingMessage,
+  res: http.ServerResponse,
 ) => {
   const url = req.url;
   const method = req.method;
@@ -11,28 +11,29 @@ const requestHandler = (
     res.write("<html>");
     res.write("<head><title>Enter Message</title></head>");
     res.write(
-      "<body><form action='/message' method='POST'><input type='text' name='message'><button type='submit'>Send</button></input></form></body>",
+      '<body><form action="/message" method="POST"><input type="text" name="message"><button type="submit">Send</button></form></body>',
     );
-    res.write("</head>");
+    res.write("</html>");
     return res.end();
   }
+
   if (url === "/message" && method === "POST") {
     const body: any[] = [];
     req.on("data", (chunk) => {
       body.push(chunk);
     });
-    req.on("end", () => {
+    return req.on("end", () => {
       const parsedBody = Buffer.concat(body).toString();
       const [_, message] = parsedBody.split("=");
       fs.writeFile("./src/http-node/message.txt", message, (err) => {
-        res.writeHead(302, { Location: "/" });
+        res.statusCode = 302;
+        res.setHeader("Location", "/");
         /**
          * 302: Redirect
          */
         /**
          * could also use:
-         * res.statusCode = 302;
-         * res.setHeader("Location", "/");
+         * res.writeHead(302, { Location: "/" });
          */
         return res.end();
       });
@@ -45,5 +46,3 @@ const requestHandler = (
   res.write("</head>");
   res.end();
 };
-
-export default requestHandler;

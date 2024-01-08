@@ -1,9 +1,7 @@
 import http from "node:http";
-import requestHandler from "./routes-app";
+import { requestHandler } from "./routes-app";
 
-const server = http.createServer((req, res) => {
-  requestHandler(res, req);
-});
+const server = http.createServer(requestHandler);
 
 // Start the server and listen on the specified port
 const port = 3000;
