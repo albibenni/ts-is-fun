@@ -12,7 +12,11 @@
       "program": "${workspaceFolder}/src/http-node/app.ts",
       "outFiles": ["${workspaceFolder}/**/*.js"],
       "restart": true,
-      "runtimeExecutable": "nodemon"
+      "runtimeExecutable": "nodemon",
+      "resolveSourceMapLocations": [
+        "${workspaceFolder}/**",
+        "!**/node_modules/**"
+      ]
     }
   ]
 }
