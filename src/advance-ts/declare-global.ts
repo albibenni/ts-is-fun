@@ -1,5 +1,5 @@
 export {};
-const bar = window.foo(); // Not present in the Window interface
+const foo = window.foo(); // Not present in the Window interface
 
 declare global {
   type Whatever = string;
