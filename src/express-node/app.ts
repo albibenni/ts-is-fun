@@ -5,6 +5,15 @@ const app = express();
 // Set the port for the server to listen on
 const port = 3000;
 
+app.use((req, res, next) => {
+  console.log("In the middleware");
+  next();
+});
+app.use((req, res, next) => {
+  console.log("In the second middleware");
+  next();
+});
+
 // Define a route for the root path
 app.get("/", (req, res) => {
   res.send("Hello, Express!");
