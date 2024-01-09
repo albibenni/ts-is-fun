@@ -11,7 +11,7 @@ app.use((req, res, next) => {
 });
 app.use((req, res, next) => {
   console.log("In the second middleware");
-  next();
+  res.send("<h1>Hello from Express!</h1>");
 });
 
 // Define a route for the root path
