@@ -5,11 +5,11 @@ const app = express();
 // Set the port for the server to listen on
 const port = 3000;
 
-app.use((req, res, next) => {
-  console.log("In the middleware");
-  next();
+app.use("/add-product", (req, res, next) => {
+  console.log("In the second middleware");
+  res.send("<h1>Hello from Add product!</h1>");
 });
-app.use((req, res, next) => {
+app.use("/", (req, res, next) => {
   console.log("In the second middleware");
   res.send("<h1>Hello from Express!</h1>");
 });
