@@ -6,6 +6,7 @@
   "scripts": {
     "build": "tsc -w",
     "express": "ts-node src/express-node/app.ts",
+    "express-ass1": "nodemon src/express-node/assignment-1.ts",
     "arithmetic": "ts-node src/advanced-js/arithmetic.ts",
     "strings": "ts-node src/advanced-js/strings.ts",
     "regex": "ts-node src/advanced-js/regex.ts",
