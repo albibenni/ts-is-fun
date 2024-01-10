@@ -14,7 +14,7 @@ app.use("/add-product", (req, res) => {
   );
 });
 
-app.use("/product", (req, res) => {
+app.post("/product", (req, res) => {
   const prodBody = req.body.product;
   console.log(prodBody);
   res.redirect("/");
