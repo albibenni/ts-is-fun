@@ -1,16 +1,26 @@
 import express from "express";
+import bodyParser from "body-parser";
 
 // Create an instance of Express
 const app = express();
 // Set the port for the server to listen on
 const port = 3000;
 
-app.use("/add-product", (req, res, next) => {
-  console.log("In the second middleware");
-  res.send("<h1>Hello from Add product!</h1>");
+app.use(bodyParser.urlencoded({ extended: true }));
+
+app.use("/add-product", (req, res) => {
+  res.send(
+    '<form action="/product" method="POST"><input type="text" name="product"><button type="submit">Send</button></form>',
+  );
 });
+
+app.use("/product", (req, res) => {
+  const prodBody = req.body.product;
+  console.log(prodBody);
+  res.redirect("/");
+});
+
 app.use("/", (req, res, next) => {
-  console.log("In the second middleware");
   res.send("<h1>Hello from Express!</h1>");
 });
 

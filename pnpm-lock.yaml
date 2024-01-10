@@ -8,6 +8,9 @@ devDependencies:
   '@changesets/cli':
     specifier: ^2.26.2
     version: 2.26.2
+  '@types/body-parser':
+    specifier: ^1.19.5
+    version: 1.19.5
   '@types/express':
     specifier: ^4.17.21
     version: 4.17.21
@@ -17,6 +20,9 @@ devDependencies:
   '@types/node':
     specifier: ^20
     version: 20.9.0
+  body-parser:
+    specifier: ^1.20.2
+    version: 1.20.2
   eslint:
     specifier: ^8
     version: 8.53.0
@@ -1671,6 +1677,26 @@ packages:
       on-finished: 2.4.1
       qs: 6.11.0
       raw-body: 2.5.1
+      type-is: 1.6.18
+      unpipe: 1.0.0
+    transitivePeerDependencies:
+      - supports-color
+    dev: true
+
+  /body-parser@1.20.2:
+    resolution: {integrity: sha512-ml9pReCu3M61kGlqoTm2umSXTlRTuGTx0bfYj+uIUKKYycG5NtSbeetV3faSU6R7ajOPw0g/J1PvK4qNy7s5bA==}
+    engines: {node: '>= 0.8', npm: 1.2.8000 || >= 1.4.16}
+    dependencies:
+      bytes: 3.1.2
+      content-type: 1.0.5
+      debug: 2.6.9
+      depd: 2.0.0
+      destroy: 1.2.0
+      http-errors: 2.0.0
+      iconv-lite: 0.4.24
+      on-finished: 2.4.1
+      qs: 6.11.0
+      raw-body: 2.5.2
       type-is: 1.6.18
       unpipe: 1.0.0
     transitivePeerDependencies:
@@ -4270,6 +4296,16 @@ packages:
 
   /raw-body@2.5.1:
     resolution: {integrity: sha512-qqJBtEyVgS0ZmPGdCFPWJ3FreoqvG4MVQln/kCgF7Olq95IbOp0/BWyMwbdtn4VTvkM8Y7khCQ2Xgk/tcrCXig==}
+    engines: {node: '>= 0.8'}
+    dependencies:
+      bytes: 3.1.2
+      http-errors: 2.0.0
+      iconv-lite: 0.4.24
+      unpipe: 1.0.0
+    dev: true
+
+  /raw-body@2.5.2:
+    resolution: {integrity: sha512-8zGqypfENjCIqGhgXToC8aB2r7YrBX+AQAfIPs/Mlk+BtPTztOvTS01NRW/3Eh60J+a48lt8qsCzirQ6loCVfA==}
     engines: {node: '>= 0.8'}
     dependencies:
       bytes: 3.1.2
