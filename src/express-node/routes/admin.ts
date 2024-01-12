@@ -1,11 +1,10 @@
 import { Router } from "express";
+import path from "node:path";
 
 const adminRoutes = Router();
 
 adminRoutes.get("/add-product", (req, res) => {
-  res.send(
-    '<form action="/admin/product" method="POST"><input type="text" name="product"><button type="submit">Send</button></form>',
-  );
+  res.sendFile(path.join(__dirname, "..", "views", "add-product.html"));
 });
 
 adminRoutes.post("/add-product", (req, res) => {
