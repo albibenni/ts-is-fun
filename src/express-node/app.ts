@@ -2,6 +2,7 @@ import express from "express";
 import bodyParser from "body-parser";
 import adminRoutes from "./routes/admin";
 import shopRoutes from "./routes/shop";
+import path from "node:path";
 
 // Create an instance of Express
 const app = express();
@@ -15,7 +16,7 @@ app.use("/shop", shopRoutes);
 
 //404
 app.use((_, res) => {
-  res.status(404).send("<h1>Page not found</h1>");
+  res.status(404).sendFile(path.join(__dirname, "views", "404.html"));
 });
 
 // Start the server and listen on the specified port
