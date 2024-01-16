@@ -9,6 +9,8 @@ const app = express();
 // Set the port for the server to listen on
 const port = 3000;
 
+app.set("view engine", "pug");
+
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, "public")));
 
