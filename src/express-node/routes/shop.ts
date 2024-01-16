@@ -4,9 +4,9 @@ import { products } from "./admin";
 
 const shopRoutes = Router();
 
-shopRoutes.use("/", (req, res, next) => {
-  console.log(products);
-  res.sendFile(path.join(__dirname, "..", "views", "shop.html"));
+shopRoutes.get("/", (req, res, next) => {
+  // res.sendFile(path.join(__dirname, "..", "views", "shop.pug"));
+  res.render("shop");
 });
 
 export default shopRoutes;
