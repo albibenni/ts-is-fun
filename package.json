@@ -13,7 +13,8 @@
     "regex": "ts-node src/advanced-js/regex.ts",
     "numbers": "ts-node src/advanced-js/numbers.ts",
     "node-http": "nodemon src/http-node/app.ts",
-    "express-js": "nodemon src/express-node/app.ts"
+    "express-js": "nodemon src/express-node/app.ts",
+    "kill": "ts-node src/os-processes-terminal/test.ts"
   },
   "keywords": [],
   "author": "Alberto Benatti",
