@@ -19,7 +19,7 @@ const getCurrentFolderFileList = () => {
 
 // getCurrentFolderFileList();
 
-const getRunningProcesses = () => {
+const getRunningProcesses = (): string[] => {
   exec("ps -e", (error, stdout, stderr) => {
     if (error) {
       log(`error: ${error.message}`);
@@ -33,39 +33,62 @@ const getRunningProcesses = () => {
     const lines = stdout.split("\n");
     const processes = lines.filter((line) => line.includes("google"));
     log(processes);
-    processes.forEach((process) => {
+    return processes.map((process) => {
       const processInfo = process.split(" ");
       const pid = processInfo[0];
       const command = processInfo[3];
       log(`PID: ${pid} - Command: ${command}`);
+      return pid;
+    });
+  });
+  return [];
+};
+
+// const getRunningProcesses2 = (userID: string): Promise<string[]> => {
+//   exec(`pgrep -l -u ${userID}`, (error, stdout, stderr) => {
+//     if (error) {
+//       log(`error: ${error.message}`);
+//       return;
+//     }
+//     if (stderr) {
+//       log(`stderr: ${stderr}`);
+//       return;
+//     }
+//     // log(`stdout: ${stdout}`);
+//     const lines = stdout.split("\n");
+//     const processes = lines.filter((line) =>
+//       line.toLowerCase().includes("discord"),
+//     );
+//     const pids = processes.map((process) => process.split(" ")[0]);
+//     // processes.forEach((process) => {
+//     //   const processInfo = process.split(" ");
+//     //   const pid = processInfo[0];
+//     //   const command = processInfo[3];
+//     //   log(`PID: ${pid} - Command: ${command}`);
+//     // });
+//     log(pids);
+//     return pids;
+//   });
+const getRunningProcesses2 = async (userID: string): Promise<string[]> => {
+  return new Promise((resolve, reject) => {
+    exec(`pgrep -l -u ${userID}`, (error, stdout, stderr) => {
+      if (error) {
+        log(`error: ${error.message}`);
+        reject(error);
+        return;
+      }
+      if (stderr) {
+        log(`stderr: ${stderr}`);
+        reject(stderr);
+        return;
+      }
+      const lines = stdout.split("\n");
+      const processes = lines.filter((line) =>
+        line.toLowerCase().includes("discord"),
+      );
+      const pids = processes.map((process) => process.split(" ")[0]);
+      // log(pids);
+      resolve(pids);
     });
   });
 };
-
-const getRunningProcesses2 = (userID: string) => {
-  exec(`pgrep -l -u ${userID}`, (error, stdout, stderr) => {
-    if (error) {
-      log(`error: ${error.message}`);
-      return;
-    }
-    if (stderr) {
-      log(`stderr: ${stderr}`);
-      return;
-    }
-    // log(`stdout: ${stdout}`);
-    const lines = stdout.split("\n");
-    log(lines);
-    const processes = lines.filter((line) =>
-      line.toLowerCase().includes("discord"),
-    );
-    log(processes);
-    processes.forEach((process) => {
-      const processInfo = process.split(" ");
-      const pid = processInfo[0];
-      const command = processInfo[3];
-      log(`PID: ${pid} - Command: ${command}`);
-    });
-  });
-};
-
-getRunningProcesses2("benni");
