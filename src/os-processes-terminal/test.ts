@@ -92,3 +92,24 @@ const getRunningProcesses2 = async (userID: string): Promise<string[]> => {
     });
   });
 };
+
+const killProcess = async (userID: string) => {
+  const pids = await getRunningProcesses2(userID);
+  log(pids);
+  if (pids.length === 0) return;
+  pids.forEach((pid) => {
+    exec(`kill ${pid}`, (error, stdout, stderr) => {
+      if (error) {
+        log(`error: ${error.message}`);
+        return;
+      }
+      if (stderr) {
+        log(`stderr: ${stderr}`);
+        return;
+      }
+      log(`stdout: ${stdout}`);
+    });
+  });
+};
+
+killProcess("benni");
