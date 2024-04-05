@@ -112,4 +112,5 @@ const killProcess = async (userID: string) => {
   });
 };
 
-killProcess("benni");
+// killProcess("benni");
+console.log("asd");
