@@ -9,12 +9,12 @@ class Command {
     }
 }
 
-const Commands = {
+export const Commands = {
     ADD: "add",
     DELETE: "delete",
 }
 
-const CommandExecutor = {
+export const CommandExecutor = {
     execute(command) {
         const todoList = TodoList.getInstance();
         switch (command.name) {
