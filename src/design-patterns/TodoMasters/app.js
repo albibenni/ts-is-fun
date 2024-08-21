@@ -41,6 +41,20 @@ document.addEventListener("DOMContentLoaded", () => {
     renderList();
 });
 
+document.addEventListener('keydown', function(event) {
+    if (event.ctrlKey && event.key === 'p') {
+        event.preventDefault();
+        const cmd = new Command(Commands.ADD);
+        CommandExecutor.execute(cmd);
+    }
+    if (event.ctrlKey && event.key === 'z') {
+        event.preventDefault();
+        const cmd = new Command(Commands.UNDO);
+        CommandExecutor.execute(cmd);
+    }
+});
+
+
 document.addEventListener("DOMContentLoaded", () => {
     TodoList.getInstance().addObserver(renderList);
 });
