@@ -1,6 +1,6 @@
 import { TodoItem, TodoList } from "./classes.js";
 
-class Command {
+export class Command {
     name;
     args;
     constructor(name, args) {
@@ -23,9 +23,9 @@ export const CommandExecutor = {
                 const todoText = todoInput.value.trim();
                 const itemInLIst = todoList.find(todoText);
 
-                if (todoText != "" && !itemInLIst) {
+                if (todoText !== "" && !itemInLIst) {
                     todoInput.value = "";
-                    todoInput.add(new TodoItem(todoText));
+                    todoList.add(new TodoItem(todoText));
                 }
                 break;
             case Commands.DELETE:

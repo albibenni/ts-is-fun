@@ -1,6 +1,6 @@
 import { observerMixin } from "./mixin.js";
 
-class TodoItem {
+export class TodoItem {
     constructor(text) {
         this.text = text;
     }
@@ -9,7 +9,7 @@ class TodoItem {
     }
 }
 
-class TodoList { // Singleton
+export class TodoList { // Singleton
     // Data
     #data = new Set();
 
@@ -30,7 +30,7 @@ class TodoList { // Singleton
     }
     add(item) {
         const array = Array.from(this.#data);
-        const todoExists = array.filter(t => t.equals(item).length > 0);
+        const todoExists = array.filter(t => t.equals(item)).length > 0;
         if (!todoExists) {
             this.#data.add(item);
             this.notify();
