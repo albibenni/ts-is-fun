@@ -2,6 +2,8 @@ import Router from './services/Router.js';
 import Store from './services/Store.js';
 
 // Web Components Imports
+import './components/MenuPage.js';
+import './components/DetailsPage.js';
 import { loadData } from "./services/Menu.js";
 
 window.app = {}
