@@ -33,6 +33,15 @@ body>header {
     view-transition-name: main-header;
 }
 
+details-page::part(image) {
+    width: 120%;
+    margin-left: -10%;
+}
+
+::view-transition-new(image) {
+    animation: 210ms cubic-bezier(0, 0, 0.2, 1) 90ms both fade-in
+}
+
 :root {
     --background-surface: #EFEFEF;
     --primaryColor: #43281C;
