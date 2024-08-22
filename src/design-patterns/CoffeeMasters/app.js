@@ -1,6 +1,5 @@
 import Router from './services/Router.js';
 import Store from './services/Store.js';
-import API from './services/API.js';
 
 // Web Components Imports
 import { loadData } from "./services/Menu.js";
