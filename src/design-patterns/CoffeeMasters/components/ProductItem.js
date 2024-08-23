@@ -20,14 +20,14 @@ export default class ProductItem extends HTMLElement {
         this.querySelector("img").style.viewTransitionName = `image-${product.id}`
         this.querySelector("a").addEventListener("click", event => {
             console.log(event.target.tagName);
-            if (event.target.tagName.toLowerCase()=="button") {
+            if (event.target.tagName.toLowerCase() == "button") {
                 addToCart(product.id);
             } else {
                 app.router.go(`/product-${product.id}`);
             }
             event.preventDefault();
         })
-      }
+    }
 }
 
 customElements.define("product-item", ProductItem);
