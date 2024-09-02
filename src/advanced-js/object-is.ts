@@ -34,3 +34,5 @@ console.log(Object.is("42", 42) === false);
 console.log(Object.is(42, "42") === false);
 console.log(Object.is("foo", "bar") === false);
 console.log(Object.is(false, true) === false);
+console.log(Object.is(null, undefined) === false);
+console.log(Object.is(undefined, null) === false);
