@@ -1,4 +1,5 @@
 //@ts-ignore
+// any are intende as a simulation for .js
 function isValidName(name: any) {
   if (typeof name == "string" && name.trim().length >= 3) {
     return true;
