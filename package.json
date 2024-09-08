@@ -15,11 +15,13 @@
     "numbers": "ts-node src/advanced-js/numbers.ts",
     "node-http": "nodemon src/http-node/app.ts",
     "express-js": "nodemon src/express-node/app.ts",
-    "kill": "ts-node src/os-processes-terminal/test.ts"
+    "kill": "ts-node src/os-processes-terminal/test.ts",
+    "advanced-js": "node --experimental-strip-types ./src/advanced-js/${filename}",
+    "advanced-ts": "node --experimental-strip-types ./src/advanced-ts/${filename}"
   },
-  "keywords": [],
   "author": "Alberto Benatti",
   "license": "ISC",
+  "keywords": [],
   "devDependencies": {
     "@changesets/cli": "^2.26.2",
     "@types/body-parser": "^1.19.5",
