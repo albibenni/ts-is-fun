@@ -11,8 +11,8 @@ function otherClass() {
 
 otherClass();
 
-//******
-//******
+//****** ***********
+//****** ***********
 
 var teacher2 = "Me";
 
@@ -29,8 +29,8 @@ function otherClass2() {
 
 otherClass2();
 
-//******
-//******
+//****** ***********
+//****** ***********
 
 function askk(question) {
   console.log(this.teacher, question);
@@ -41,3 +41,30 @@ var workshop = {
 };
 
 workshop.ask("How do I share stuff?");
+
+//****** ***********
+//****** ***********
+
+function askk2(question) {
+  console.log(this.teacher, question);
+}
+var workshop2 = {
+  teacher: "Suzy",
+};
+
+askk2.call(workshop2, "How do I share stuff?");
+
+//****** ***********
+// this: hard binding
+//****** ***********
+//
+
+const workshop3 = {
+  teacher: "Same",
+  ask(question) {
+    console.log(this.teacher, question);
+  },
+};
+
+setTimeout(workshop3.ask, 10, "Lost this?"); // lost this, goes to global scope
+setTimeout(workshop3.ask.bind(workshop3), 10, "Hard bound this?");
