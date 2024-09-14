@@ -68,3 +68,34 @@ const workshop3 = {
 
 setTimeout(workshop3.ask, 10, "Lost this?"); // lost this, goes to global scope
 setTimeout(workshop3.ask.bind(workshop3), 10, "Hard bound this?");
+
+//****** ***********
+//****** ***********
+//
+var workshop4 = {
+  teacher: "Same4",
+  ask(question) {
+    setTimeout(() => {
+      console.log(this.teacher, question);
+    }, 100);
+  },
+};
+
+workshop4.ask("is this lexical 'this'?");
+
+//****** ***********
+//****** ***********
+//
+
+var workshop5 = {
+  teacher: "Another",
+  ask: (question) => {
+    console.log(this.teacher, question); // point to the global scope
+  },
+};
+
+workshop5.ask("No this here right");
+// undefined ...
+
+workshop5.ask.call(workshop5, "No this here right");
+// undefined ...
