@@ -84,6 +84,7 @@ var workshop4 = {
 workshop4.ask("is this lexical 'this'?");
 
 //****** ***********
+// arrow function lexical this
 //****** ***********
 //
 
