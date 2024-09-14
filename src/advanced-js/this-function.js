@@ -11,6 +11,9 @@ function otherClass() {
 
 otherClass();
 
+//******
+//******
+
 var teacher2 = "Me";
 
 function ask2(question) {
@@ -25,3 +28,16 @@ function otherClass2() {
 }
 
 otherClass2();
+
+//******
+//******
+
+function askk(question) {
+  console.log(this.teacher, question);
+}
+var workshop = {
+  teacher: "Suzy",
+  ask: askk,
+};
+
+workshop.ask("How do I share stuff?");
