@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "My testing project",
   "main": ".dist/index.js",
+  "type": "module",
   "scripts": {
     "build": "tsc -w",
     "express": "ts-node src/express-node/app.ts",
@@ -27,7 +28,7 @@
     "@types/body-parser": "^1.19.5",
     "@types/express": "^4.17.21",
     "@types/jest": "^29.5.11",
-    "@types/node": "^22.4.1",
+    "@types/node": "^22.7.9",
     "body-parser": "^1.20.2",
     "ejs": "^3.1.9",
     "eslint": "^8",
