@@ -16,7 +16,24 @@ userCreator.prototype.increment = function () {
 userCreator.prototype.login = function () {
   console.log("login");
 };
-const user1 = new userCreator("Eva", 9);
+const user1 = new userCreator("Eva in function", 9);
 user1.increment();
 
 console.log(user1);
+
+/// -- class is the same
+class UserCreator {
+  constructor(name, score) {
+    this.name = name;
+    this.score = score;
+  }
+  increment() {
+    this.score++;
+  }
+  login() {
+    console.log("login");
+  }
+}
+const user1asClass = new UserCreator("Eva in a class", 9);
+user1asClass.increment();
+console.log(user1asClass);
