@@ -10,4 +10,7 @@ function userCreator(name, score) {
 }
 const user1 = userCreator("Will", 3);
 const user2 = userCreator("Tim", 5);
+console.log(user1.hasOwnProperty("score")); // true
+console.log(user1.hasOwnProperty("name")); // true
+console.log(user1.hasOwnProperty("toString")); // false
 user1.increment();
