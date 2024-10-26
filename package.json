@@ -17,6 +17,7 @@
     "node-http": "nodemon src/http-node/app.ts",
     "express-js": "nodemon src/express-node/app.ts",
     "kill": "ts-node src/os-processes-terminal/test.ts",
+    "nodec": "node --experimental-strip-types ./src/node-ref/${filename}",
     "advanced-js": "node --experimental-strip-types ./src/advanced-js/${filename}",
     "advanced-ts": "node --experimental-strip-types ./src/advanced-ts/${filename}"
   },
