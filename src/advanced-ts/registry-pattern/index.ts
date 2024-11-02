@@ -4,5 +4,5 @@ const book = fetchRecord("book", "bk_123");
 const magazine = fetchRecord("magazine", "bk_123");
 
 /**
-* Example of declare module interface usage in registry pattern
-*/
+ * Example of declare module interface usage in registry pattern
+ */
