@@ -32,7 +32,12 @@ function test() {
 }
 
 function test2(num: number) {
-  console.log("binary representation ", (num >>> 0).toString(2));
+  const bitRep = (num >>> 0).toString(2);
+  console.log("binary representation decimal", bitRep);
+  console.log("bit len as int - dec, ", bitRep.length);
+  const bitRepNat = num.toString(2);
+  console.log("binary representation nat", bitRepNat);
+  console.log("bit len naturals, ", bitRepNat.length);
   console.log(num);
 
   console.log(num >>> 1);
