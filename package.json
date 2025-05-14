@@ -5,6 +5,7 @@
   "main": ".dist/index.js",
   "type": "module",
   "scripts": {
+    "test:bin": "vitest run bin",
     "build": "tsc -w"
   },
   "author": "Alberto Benatti",

@@ -15,6 +15,6 @@ export default defineConfig({
     env: {
       ...config({ path: "./.env.local" }).parsed,
     },
-    root: "./packages",
+    root: "./src",
   },
 });
