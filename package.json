@@ -5,7 +5,9 @@
   "main": ".dist/index.js",
   "type": "module",
   "scripts": {
+    "test": "vitest run",
     "test:bin": "vitest run bin",
+    "test:queue": "vitest run queue",
     "build": "tsc -w"
   },
   "author": "Alberto Benatti",
