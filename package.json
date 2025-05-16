@@ -6,6 +6,7 @@
   "type": "module",
   "scripts": {
     "test": "vitest run",
+    "test:stack": "vitest run stack",
     "test:bin": "vitest run bin",
     "test:queue": "vitest run queue",
     "build": "tsc -w"
