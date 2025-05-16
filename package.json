@@ -7,6 +7,7 @@
   "scripts": {
     "test": "vitest run",
     "test:stack": "vitest run stack",
+    "test:linked": "vitest run linked",
     "test:bin": "vitest run bin",
     "test:queue": "vitest run queue",
     "build": "tsc -w"

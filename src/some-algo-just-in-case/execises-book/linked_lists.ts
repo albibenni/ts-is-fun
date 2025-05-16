@@ -101,10 +101,33 @@ export class DoublyLinkedList<T> implements LinkedList<T> {
     if (idx < 0 || idx >= this.#length) return undefined;
 
     if (idx === 0) return this.deque();
+    if (idx === this.#length - 1) return this.pop();
+
+    // Find the node at the given index
+    let current = this.#head;
+    for (let i = 0; i < idx && current !== null; i++) {
+      current = current.next || null;
+    }
+
+    if (!current) return undefined;
+
+    // Link the previous and next nodes
+    if (current.prev) current.prev.next = current.next;
+    if (current.next) current.next.prev = current.prev;
+
+    this.#length--;
+    return current.value;
   }
 
   find(value: T): boolean {
-    throw new Error("Method not implemented.");
+    let current = this.#head;
+    while (current) {
+      if (current.value === value) {
+        return true;
+      }
+      current = current.next || null;
+    }
+    return false;
   }
 
   length() {
