@@ -1,5 +1,5 @@
 import { describe, test, expect } from "vitest";
-import { DoublyLinkedList } from "../linked_lists.js";
+import { DoublyLinkedList } from "../doubly_linked_lists.ts";
 
 describe("DoublyLinkedList", () => {
   test("should initialize with length 0", () => {
