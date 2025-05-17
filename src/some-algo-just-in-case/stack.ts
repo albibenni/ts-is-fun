@@ -27,13 +27,13 @@ export default class Stack<T> implements IStack<T> {
   }
   pop(): T | undefined {
     this.length = Math.max(0, this.length - 1);
-    const value = this.head?.value;
+    const head_ref = this.head?.value;
     if (this.length === 0) {
       this.head = undefined;
-      return value;
+      return head_ref.value;
     }
     this.head = this.head!.prev;
-    return value;
+    return head_ref.value;
   }
   peek(): T | undefined {
     return this.head?.value;
