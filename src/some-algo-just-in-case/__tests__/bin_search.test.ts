@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import binary_search from "./bin_search.js";
+import binary_search from "../search_algo/bin_search.ts";
 
 describe("binary_search", () => {
   it("should find an element in a sorted array", () => {

@@ -1,5 +1,5 @@
 import { describe, it, expect, beforeEach } from "vitest";
-import { Queue } from "./queue.ts";
+import { Queue } from "../data_structures/queue.ts";
 
 describe("Queue", () => {
   let queue: Queue<number>;

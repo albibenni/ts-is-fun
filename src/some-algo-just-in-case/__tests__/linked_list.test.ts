@@ -1,5 +1,5 @@
 import { describe, it, expect, beforeEach } from "vitest";
-import { SinglyLinkedList } from "../linked_list.js";
+import { SinglyLinkedList } from "../data_structures/linked_list.ts";
 
 describe("SinglyLinkedList", () => {
   let list: SinglyLinkedList<number>;

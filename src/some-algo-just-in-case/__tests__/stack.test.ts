@@ -1,5 +1,5 @@
 import { describe, test, expect, beforeEach } from "vitest";
-import Stack from "./stack.js";
+import Stack from "../data_structures/stack.ts";
 
 describe("Stack", () => {
   let stack: Stack<number>;
