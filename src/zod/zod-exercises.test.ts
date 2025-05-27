@@ -131,9 +131,16 @@ describe("Basic Zod (Exercises)", () => {
    * - Or an object { id: number, name: string }
    *
    */
-  const userIdentitySchema = "🥸 IMPLEMENT ME!" as any;
 
-  describe.skip("Challenge 4: Union Types", () => {
+  const userIdentitySchema = z.union([
+    z.object({
+      id: z.number(),
+      name: z.string(),
+    }),
+    z.literal("anonymous"),
+  ]);
+
+  describe("Challenge 4: Union Types", () => {
     it("should accept the string 'anonymous'", () => {
       const result = userIdentitySchema.parse("anonymous");
       expect(result).toBe("anonymous");
