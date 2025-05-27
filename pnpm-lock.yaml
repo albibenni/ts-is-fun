@@ -7,6 +7,10 @@ settings:
 importers:
 
   .:
+    dependencies:
+      zod:
+        specifier: ^3.25.30
+        version: 3.25.30
     devDependencies:
       '@changesets/cli':
         specifier: ^2.26.2
@@ -2109,6 +2113,9 @@ packages:
     resolution: {integrity: sha512-rVksvsnNCdJ/ohGc6xgPwyN8eheCxsiLM8mxuE/t/mOVqJewPuO1miLpTHQiRgTKCLexL4MeAFVagts7HmNZ2Q==}
     engines: {node: '>=10'}
 
+  zod@3.25.30:
+    resolution: {integrity: sha512-VolhdEtu6TJr/fzGuHA/SZ5ixvXqA6ADOG9VRcQ3rdOKmF5hkmcJbyaQjUH5BgmpA9gej++zYRX7zjSmdReIwA==}
+
 snapshots:
 
   '@babel/helper-string-parser@7.25.9': {}
@@ -4184,3 +4191,5 @@ snapshots:
       yargs-parser: 21.1.1
 
   yocto-queue@0.1.0: {}
+
+  zod@3.25.30: {}

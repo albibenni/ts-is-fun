@@ -6,6 +6,7 @@
   "type": "module",
   "scripts": {
     "test": "vitest run",
+    "test:zod": "vitest run zod",
     "test:stack": "vitest run stack",
     "test:linked": "vitest run linked",
     "test:bin": "vitest run bin",
@@ -16,31 +17,34 @@
   "license": "ISC",
   "keywords": [],
   "devDependencies": {
-    "@types/node": "^22.10.7",
+    "@changesets/cli": "^2.26.2",
     "@eslint/eslintrc": "^3.2.0",
     "@eslint/js": "^9.22.0",
-    "typescript-eslint": "^8.20.0",
-    "eslint-config-prettier": "^10.0.1",
-    "eslint-plugin-prettier": "^5.2.2",
-    "globals": "^16.0.0",
-    "eslint": "^9.22.0",
-    "prettier": "^3.4.2",
-    "@changesets/cli": "^2.26.2",
     "@types/body-parser": "^1.19.5",
     "@types/express": "^5.0.1",
+    "@types/node": "^22.10.7",
     "body-parser": "^2.2.0",
+    "dotenv": "^16.4.5",
     "ejs": "^3.1.9",
+    "eslint": "^9.22.0",
+    "eslint-config-prettier": "^10.0.1",
+    "eslint-plugin-prettier": "^5.2.2",
     "express": "^4.21.1",
     "express-handlebars": "^8.0.1",
+    "globals": "^16.0.0",
+    "prettier": "^3.4.2",
     "pug": "^3.0.2",
-    "typescript": "^5.8.2",
-    "yargs": "^17.7.2",
     "tsup": "^8.4.0",
-    "dotenv": "^16.4.5",
-    "vitest": "^3.1.1"
+    "typescript": "^5.8.2",
+    "typescript-eslint": "^8.20.0",
+    "vitest": "^3.1.1",
+    "yargs": "^17.7.2"
   },
   "engines": {
     "node": ">=22.6.0"
   },
-  "engineStrict": true
+  "engineStrict": true,
+  "dependencies": {
+    "zod": "^3.25.30"
+  }
 }
