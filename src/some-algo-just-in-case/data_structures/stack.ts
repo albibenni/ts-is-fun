@@ -30,10 +30,10 @@ export default class Stack<T> implements IStack<T> {
     const head_ref = this.head?.value;
     if (this.length === 0) {
       this.head = undefined;
-      return head_ref.value;
+      return head_ref;
     }
     this.head = this.head!.prev;
-    return head_ref.value;
+    return head_ref;
   }
   peek(): T | undefined {
     return this.head?.value;
