@@ -11,8 +11,11 @@ describe("Basic Zod (Exercises)", () => {
    */
   const basicUserSchema = z.object({
     name: z.string(),
-    age: z.number().gt(0),
+    age: z.number().int().positive(),
   });
+
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  type User = z.infer<typeof basicUserSchema>; // example of zod usage for inferring types
 
   describe("Challenge 1: Basic Validation", () => {
     it("should pass valid data", () => {
@@ -43,7 +46,8 @@ describe("Basic Zod (Exercises)", () => {
    */
   const optionalAgeSchema = z.object({
     name: z.string(),
-    age: z.number().gte(0).optional().default(0),
+    // age: z.number().gte(0).optional().default(0),
+    age: z.number().min(0).optional().default(0),
   });
 
   describe("Challenge 2: Optional Age", () => {
@@ -74,20 +78,17 @@ describe("Basic Zod (Exercises)", () => {
    * - Must have at least one address in the array
    *
    */
-  const addressSchema = z
-    .array(
-      z.object({
-        street: z.string(),
-        city: z.string(),
-        zip: z.string(),
-        apartmentNumber: z.string().optional(),
-      }),
-    )
-    .min(1);
+  const addressSchema = z.object({
+    street: z.string(),
+    city: z.string(),
+    zip: z.string(),
+    apartmentNumber: z.string().optional(),
+  });
 
   const userProfileSchema = z.object({
     name: z.string(),
-    addresses: addressSchema,
+    // addresses: z.array(addressSchema).min(1),
+    addresses: z.array(addressSchema).nonempty(),
   });
 
   describe("Challenge 3: Nested Objects and Arrays", () => {
@@ -132,13 +133,15 @@ describe("Basic Zod (Exercises)", () => {
    *
    */
 
-  const userIdentitySchema = z.union([
-    z.object({
-      id: z.number(),
-      name: z.string(),
-    }),
-    z.literal("anonymous"),
-  ]);
+  const userSchema = z.object({
+    id: z.number(),
+    name: z.string(),
+  });
+  const anonymousSchema = z.literal("anonymous");
+  const userIdentitySchema = z.union([userSchema, anonymousSchema]);
+
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  type ThisUser = z.infer<typeof userIdentitySchema>;
 
   describe("Challenge 4: Union Types", () => {
     it("should accept the string 'anonymous'", () => {
@@ -172,10 +175,11 @@ describe("Basic Zod (Exercises)", () => {
     }
     return true;
   }
+  const primeNumberSchema = z
+    .number()
+    .refine(isPrime, { message: "Quantity must be prime!" });
 
-  const primeNumberSchema = "🥸 IMPLEMENT ME!" as any;
-
-  describe.skip("Challenge 5: Refinements (Prime Number)", () => {
+  describe("Challenge 5: Refinements (Prime Number)", () => {
     it("should pass for a prime number (5)", () => {
       expect(() => primeNumberSchema.parse(5)).not.toThrow();
     });
@@ -194,9 +198,13 @@ describe("Basic Zod (Exercises)", () => {
    * - string in YYYY-MM-DD format -> transform into Date
    *
    */
-  const dateStringSchema = "🥸 IMPLEMENT ME!" as any;
+  const dateStringSchema = z
+    .string()
+    .transform((date: string) => new Date(date), {
+      message: "Invalid date string",
+    });
 
-  describe.skip("Challenge 6: Transform to Date", () => {
+  describe("Challenge 6: Transform to Date", () => {
     it("should transform a valid string to a Date", () => {
       const result = dateStringSchema.parse("2025-12-31");
       expect(result).toBeInstanceOf(Date);
