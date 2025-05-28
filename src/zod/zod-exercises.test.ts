@@ -1,6 +1,7 @@
 // tests/zod-challenges.test.ts
 import { describe, it, expect } from "vitest";
 import { z } from "zod";
+import { email } from "zod/v4";
 
 describe("Basic Zod (Exercises)", () => {
   /**
@@ -227,10 +228,14 @@ describe("Basic Zod (Exercises)", () => {
    * - userIdSchema = z.string().uuid().brand<"UserId">()
    *
    */
-  const userIdSchema = "🥸 IMPLEMENT ME!" as any;
+  const userIdSchema = z.string().uuid().brand<"UserId">();
   type UserId = z.infer<typeof userIdSchema>; // string & { __brand: "UserId" }
 
-  describe.skip("Challenge 7: Branded UUID", () => {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars, @typescript-eslint/ban-ts-comment
+  //@ts-ignore
+  const x: UserId = "lol"; // ERROR - must be id
+
+  describe("Challenge 7: Branded UUID", () => {
     it("should pass a valid UUID", () => {
       const validUuid = "7c45ae8a-cf6e-4f72-b12f-6fbb21ce3ab9";
       const userId = userIdSchema.parse(validUuid);
@@ -248,13 +253,30 @@ describe("Basic Zod (Exercises)", () => {
    *
    * We'll reuse a "fullUserSchema" and create partial/picked/omitted versions
    */
-  const fullUserSchema = "🥸 IMPLEMENT ME!" as any;
+  const address_schema = z.object({
+    street: z.string(),
+    city: z.string(),
+    zip: z.string(),
+  });
 
-  const partialUserUpdateSchema = "🥸 IMPLEMENT ME!" as any;
-  const publicProfileSchema = "🥸 IMPLEMENT ME!" as any;
-  const userWithoutEmailSchema = "🥸 IMPLEMENT ME!" as any;
+  const fullUserSchema = z.object({
+    name: z.string(),
+    email: z.string().email(),
+    phoneNumber: z.string().nonempty(),
+    addresses: z.array(address_schema).nonempty(),
+  });
 
-  describe.skip("Challenge 8: partial, pick, omit", () => {
+  const partialUserUpdateSchema = fullUserSchema.partial();
+  const publicProfileSchema = fullUserSchema.pick({
+    name: true,
+    addresses: true,
+  });
+
+  const userWithoutEmailSchema = fullUserSchema.omit({
+    email: true,
+  });
+
+  describe("Challenge 8: partial, pick, omit", () => {
     const sampleData = {
       name: "Test User",
       email: "test@example.com",
@@ -293,9 +315,21 @@ describe("Basic Zod (Exercises)", () => {
    *
    * - Validate hex color string (#FFF or #FFFFFF, etc.)
    */
-  const hexColorSchema = "🥸 IMPLEMENT ME!" as any;
+  const hexColorSchema = z.custom<string>(
+    (value) => {
+      if (typeof value !== "string") {
+        return false;
+      }
+      // Check if it starts with # and has either 3 or 6 hex characters after
+      const hexRegex = /^#([A-Fa-f0-9]{3}|[A-Fa-f0-9]{6})$/;
+      return hexRegex.test(value);
+    },
+    {
+      message: "Invalid hex color",
+    },
+  );
 
-  describe.skip("Challenge 9: Custom (Hex Color)", () => {
+  describe("Challenge 9: Custom (Hex Color)", () => {
     it("should pass #FFF", () => {
       expect(() => hexColorSchema.parse("#FFF")).not.toThrow();
     });
