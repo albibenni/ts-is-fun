@@ -360,17 +360,36 @@ describe("Basic Zod (Exercises)", () => {
    * - email (valid email)
    * - birthDate (optional, if present must be valid date and transformed to Date)
    */
-  const usernameSchema = "🥸 IMPLEMENT ME!" as any;
+  const usernameSchema = z.string().min(4).max(16);
 
-  const passwordSchema = "🥸 IMPLEMENT ME!" as any;
+  const passwordSchema = z
+    .string()
+    .min(8)
+    .refine((val) => /\d/.test(val), { message: "Must contain a digit" });
 
-  const emailSchema = "🥸 IMPLEMENT ME!" as any;
+  const emailSchema = z.string().email();
 
-  const birthDateSchema = "🥸 IMPLEMENT ME!" as any;
+  const birthDateSchema = z
+    .string()
+    .optional()
+    .transform((val) => {
+      if (val) {
+        const date = new Date(val);
+        if (isNaN(date.getTime())) {
+          throw new Error("Not a date");
+        }
+        return date;
+      }
+    });
 
-  const registrationFormSchema = "🥸 IMPLEMENT ME!" as any;
+  const registrationFormSchema = z.object({
+    username: usernameSchema,
+    password: passwordSchema,
+    email: emailSchema,
+    birthDate: birthDateSchema,
+  });
 
-  describe.skip("Challenge 10: Full Form Validator", () => {
+  describe("Challenge 10: Full Form Validator", () => {
     it("should pass valid form data", () => {
       const validFormData = {
         username: "myuser",
@@ -395,6 +414,17 @@ describe("Basic Zod (Exercises)", () => {
       expect(() =>
         registrationFormSchema.parse(invalidFormData),
       ).toThrowError();
+    });
+    it("should fail invalid password", () => {
+      const invalidFormData = {
+        username: "meUser",
+        password: "nopass", // no digit, not enough length
+        email: "ex@some.com",
+        birthDate: "2025-01-02",
+      };
+      expect(() => registrationFormSchema.parse(invalidFormData)).toThrowError(
+        "Must contain a digit",
+      );
     });
   });
 });
