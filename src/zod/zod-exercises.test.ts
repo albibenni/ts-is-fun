@@ -198,11 +198,13 @@ describe("Basic Zod (Exercises)", () => {
    * - string in YYYY-MM-DD format -> transform into Date
    *
    */
-  const dateStringSchema = z
-    .string()
-    .transform((date: string) => new Date(date), {
-      message: "Invalid date string",
-    });
+  const dateStringSchema = z.string().transform((date: string) => {
+    const d = new Date(date);
+    if (isNaN(d.getTime())) {
+      throw new Error("Invalid date string");
+    }
+    return d;
+  });
 
   describe("Challenge 6: Transform to Date", () => {
     it("should transform a valid string to a Date", () => {
