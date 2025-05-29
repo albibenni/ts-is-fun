@@ -106,13 +106,16 @@ describe("Zod (Advanced Exercises)", () => {
    * The markdown shows an async refine scenario, such as checking
    * a username against a list of "taken" usernames in a database.
    */
-  const asyncUsernameSchema = "🥸 IMPLEMENT ME!" as any;
+  const asyncUsernameSchema = z
+    .string()
+    .refine(async (username) => await checkUsernameAvailability(username));
   // You might create a mock function to simulate an async check, e.g.:
-  // async function checkUsernameAvailability(username: string): Promise<boolean> {
-  //   return !['takenUser', 'anotherTakenUser'].includes(username);
-  // }
+  // eslint-disable-next-line @typescript-eslint/require-await
+  async function checkUsernameAvailability(username: string): Promise<boolean> {
+    return !["takenUser", "anotherTakenUser"].includes(username);
+  }
 
-  describe.skip("Challenge 3: Asynchronous Validation", () => {
+  describe("Challenge 3: Asynchronous Validation", () => {
     it("resolves with a valid (available) username", async () => {
       await expect(asyncUsernameSchema.parseAsync("newUser123")).resolves.toBe(
         "newUser123",
@@ -133,11 +136,15 @@ describe("Zod (Advanced Exercises)", () => {
    * Create either a global or schema-level error map to produce friendlier messages.
    * For instance, you might set up a map that modifies the "invalid_type" message.
    */
-  const myFriendlySchema = "🥸 IMPLEMENT ME!" as any;
+  const myFriendlySchema = z.string({
+    error: () => {
+      return { message: "Expected a friendly message" };
+    },
+  });
   // Could be a string schema or something else,
   // but with an errorMap that changes the default messages.
 
-  describe.skip("Challenge 4: Custom Error Maps", () => {
+  describe("Challenge 4: Custom Error Maps", () => {
     it("fails with a custom error message for invalid type", () => {
       // Expect that myFriendlySchema.parse(...) throws your custom error string
       expect(() => myFriendlySchema.parse(123)).toThrowError(
