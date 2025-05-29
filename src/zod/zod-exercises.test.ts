@@ -1,6 +1,6 @@
 // tests/zod-challenges.test.ts
 import { describe, it, expect } from "vitest";
-import { z } from "zod";
+import { z } from "zod/v4";
 import { email } from "zod/v4";
 
 describe("Basic Zod (Exercises)", () => {
