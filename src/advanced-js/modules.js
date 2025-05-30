@@ -106,7 +106,7 @@ function defineWorkshop() {
 
   function printRecord(record) {
     console.log(
-      `${record.name} (${record.id}): ${record.paid ? "Paid" : "Not Paid"}`
+      `${record.name} (${record.id}): ${record.paid ? "Paid" : "Not Paid"}`,
     );
   }
 

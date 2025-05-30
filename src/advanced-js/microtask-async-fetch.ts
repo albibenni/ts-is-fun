@@ -1,7 +1,7 @@
 async function fetchData() {
   console.log("Fetching data...");
   const response = await fetch(
-    "https://x.com/ThePrimeagen/status/1847997426814108016"
+    "https://x.com/ThePrimeagen/status/1847997426814108016",
   );
 
   const data = await response.text();

@@ -1,4 +1,3 @@
 function printCoordinates() {
-    console.log(`${this.x}, ${this.y}`);
+  console.log(`${this.x}, ${this.y}`);
 }
-

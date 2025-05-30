@@ -42,12 +42,12 @@ var deepJS = {
   },
   printRecord(record) {
     console.log(
-      `${record.name} (${record.id}): ${record.paid ? "Paid" : "Not Paid"}`
+      `${record.name} (${record.id}): ${record.paid ? "Paid" : "Not Paid"}`,
     );
   },
   paidStudentsToEnroll() {
     var recordsToEnroll = this.studentRecords.filter(
-      this.needToEnroll.bind(this)
+      this.needToEnroll.bind(this),
     );
 
     var idsToEnroll = recordsToEnroll.map(this.getStudentId);

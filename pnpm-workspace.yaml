@@ -1,0 +1,3 @@
+packages:
+  - "src/zod/client"
+  - "src/zod/server"

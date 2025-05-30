@@ -5,12 +5,12 @@ var printRecords = (recordIds) =>
   recordIds
     .map(getStudentFromId)
     .sort((record1, record2) =>
-      record1.name < record2.name ? -1 : record1.name > record2.name ? 1 : 0
+      record1.name < record2.name ? -1 : record1.name > record2.name ? 1 : 0,
     )
     .forEach((record) =>
       console.log(
-        `${record.name} (${record.id}): ${record.paid ? "Paid" : "Not Paid"}`
-      )
+        `${record.name} (${record.id}): ${record.paid ? "Paid" : "Not Paid"}`,
+      ),
     );
 
 var paidStudentsToEnroll = () => [
@@ -22,7 +22,7 @@ var paidStudentsToEnroll = () => [
 
 var remindUnpaid = (recordIds) =>
   printRecords(
-    recordIds.filter((studentId) => !getStudentFromId(studentId).paid)
+    recordIds.filter((studentId) => !getStudentFromId(studentId).paid),
   );
 
 // ********************************

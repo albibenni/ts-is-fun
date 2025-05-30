@@ -86,7 +86,7 @@ console.log(setsMatch(findAll(0, values), [0, -0]) === false);
 console.log(setsMatch(findAll(42, values), [42, "42hello"]) === false);
 console.log(setsMatch(findAll(25, values), [25]) === false);
 console.log(
-  setsMatch(findAll(Infinity, values), [Infinity, -Infinity]) === false
+  setsMatch(findAll(Infinity, values), [Infinity, -Infinity]) === false,
 );
 console.log(setsMatch(findAll("", values), ["", 0]) === false);
 console.log(setsMatch(findAll("false", values), [false]) === false);

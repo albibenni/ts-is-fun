@@ -13,7 +13,7 @@ function printHello() {
 setTimeout(printHello, 0);
 
 const futureData = fetch(
-  "https://x.com/ThePrimeagen/status/1847997426814108016"
+  "https://x.com/ThePrimeagen/status/1847997426814108016",
 );
 futureData.then(display);
 

@@ -1,0 +1,19 @@
+{
+  "name": "busy-bee-schema",
+  "version": "1.0.0",
+  "main": "index.ts",
+  "types": "index.ts",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "zod": "^3.25.42"
+  },
+  "devDependencies": {
+    "openapi-typescript": "^7.8.0"
+  }
+}
