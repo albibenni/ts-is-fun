@@ -1,7 +1,7 @@
-import { extendZodWithOpenApi } from '@anatine/zod-openapi';
-import chalk from 'chalk';
-import type { Request, Response } from 'express';
-import { z, ZodError } from 'zod';
+import { extendZodWithOpenApi } from "@anatine/zod-openapi";
+import chalk from "chalk";
+import type { Request, Response } from "express";
+import { z, ZodError } from "zod";
 
 extendZodWithOpenApi(z);
 
@@ -52,7 +52,7 @@ export const handleError = <
 ): Response<ErrorResponseBody> => {
   // Ensure request path is defined
   if (!request.path) {
-    throw new Error('Request route is not defined');
+    throw new Error("Request route is not defined");
   }
 
   // Handle Zod validation errors
@@ -63,55 +63,60 @@ export const handleError = <
     }));
 
     return response.status(400).json({
-      message: 'Validation error',
-      code: 'VALIDATION_ERROR',
+      message: "Validation error",
+      code: "VALIDATION_ERROR",
       errors: formattedErrors,
     });
   }
 
   // Handle standard errors
-  const message = isError(error) ? error.message : 'Unknown error';
+  const message = isError(error) ? error.message : "Unknown error";
   const path = request.path;
   const method = request.method;
 
   // Log the error with color-coded information
-  console.error(chalk.bgRed('ERROR'), chalk.red(path), chalk.yellow(method), message);
+  console.error(
+    chalk.bgRed("ERROR"),
+    chalk.red(path),
+    chalk.yellow(method),
+    message,
+  );
 
   // Return a generic error response
   return response.status(500).json({
     message,
-    code: 'INTERNAL_SERVER_ERROR',
+    code: "INTERNAL_SERVER_ERROR",
   });
 };
 
 export const ErrorResponseSchema = z
   .object({
     message: z.string().openapi({
-      description: 'Error message describing what went wrong',
-      example: 'Task not found',
+      description: "Error message describing what went wrong",
+      example: "Task not found",
     }),
     code: z.string().optional().openapi({
-      description: 'Error code for more specific error handling',
-      example: 'NOT_FOUND',
+      description: "Error code for more specific error handling",
+      example: "NOT_FOUND",
     }),
     errors: z
       .array(
         z.object({
           path: z.array(z.union([z.string(), z.number()])).openapi({
-            description: 'Path to the field with the error',
-            example: ['title'],
+            description: "Path to the field with the error",
+            example: ["title"],
           }),
           message: z.string().openapi({
-            description: 'Error message for this specific field',
-            example: 'Required',
+            description: "Error message for this specific field",
+            example: "Required",
           }),
         }),
       )
       .optional()
       .openapi({
-        description: 'Detailed validation errors, if applicable',
+        description: "Detailed validation errors, if applicable",
       }),
   })
   .openapi({
-    description: 'Standard error response',
+    description: "Standard error response",
   });

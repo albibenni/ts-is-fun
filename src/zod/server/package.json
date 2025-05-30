@@ -1,12 +1,11 @@
 {
   "name": "busy-bee-api",
   "version": "1.0.0",
-  "description": "A simple task management applicaton for the sole purpose of learning how to build type-safe applications.",
-  "main": "src/index.js",
+  "description": "A simple task management application for the sole purpose of learning how to build type-safe applications.",
+  "main": "src/index.ts",
   "type": "module",
   "scripts": {
-    "start": "npm run dev",
-    "dev": "tsx watch src/index.ts",
+    "dev": "node --watch src/index.ts",
     "test": "vitest",
     "format": "prettier --write \"src/**/*.{ts,tsx,js,jsx}\"",
     "format:check": "prettier --check \"src/**/*.{ts,tsx,js,jsx}\"",
