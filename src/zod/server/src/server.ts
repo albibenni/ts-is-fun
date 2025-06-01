@@ -1,7 +1,25 @@
 import cors from "cors";
-import express, { Request, Response } from "express";
-import type { Database } from "sqlite";
+import express from "express";
 import { handleError } from "./handle-error.ts";
+import type { Request, Response } from "express";
+import type { Database } from "sqlite";
+import { z } from "zod/v4";
+
+export const TaskSchema = z.object({
+  id: z.number(),
+  title: z.string(),
+  completed: z.coerce.boolean().default(false),
+  description: z.string().optional(),
+});
+
+export const CreateTaskSchema = TaskSchema.omit({ id: true });
+export const UpdateTaskSchema = TaskSchema.partial().omit({ id: true });
+export const TaskListSchema = z.array(TaskSchema);
+
+export type Task = z.infer<typeof TaskSchema>;
+export type CreateTask = z.infer<typeof CreateTaskSchema>;
+export type UpdateTask = z.infer<typeof UpdateTaskSchema>;
+export type TaskListSchema = z.infer<typeof TaskListSchema>;
 
 export async function createServer(database: Database) {
   const app = express();
@@ -23,45 +41,51 @@ export async function createServer(database: Database) {
     `UPDATE tasks SET title = ?, description = ?, completed = ? WHERE id = ?`,
   );
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  app.get("/tasks", async (req: Request, res: Response): Promise<any> => {
+  app.get("/tasks", async (req: Request, res: Response): Promise<void> => {
     const { completed } = req.query;
     const query = completed === "true" ? completedTasks : incompleteTasks;
 
     try {
       const tasks = await query.all();
-      return res.json(tasks);
+      res.json(tasks);
+      return;
     } catch (error) {
-      return handleError(req, res, error);
+      handleError(req, res, error);
+      return;
     }
   });
 
   // Get a specific task
-  app.get("/tasks/:id", async (req, res) => {
+  app.get("/tasks/:id", async (req: Request, res: Response): Promise<void> => {
     try {
       const { id } = req.params;
       const task = await getTask.get([id]);
 
-      if (!task) return res.status(404).json({ message: "Task not found" });
+      if (!task) {
+        res.status(404).json({ message: "Task not found" });
+        return;
+      }
 
-      return res.json(task);
+      res.json(task);
+      return;
     } catch (error) {
-      return handleError(req, res, error);
+      handleError(req, res, error);
+      return;
     }
   });
 
-  type CreateTaskRequestBody = {
-    title: string;
-    description?: string;
-  };
-  type CreateTaskRequest = Request<
-    object,
-    { message: string },
-    CreateTaskRequestBody
-  >;
-  app.post("/tasks", async (req: CreateTaskRequest, res): Promise<void> => {
+  // type CreateTaskRequestBody = {
+  //   title: string;
+  //   description?: string;
+  // };
+  // type CreateTaskRequest = Request<
+  //   object,
+  //   { message: string },
+  //   CreateTaskRequestBody
+  // >;
+  app.post("/tasks", async (req, res): Promise<void> => {
     try {
-      const task = req.body;
+      const task: CreateTask = CreateTaskSchema.parse(req.body);
       if (!task.title) {
         res.status(400).json({ message: "Title is required" });
         return;
@@ -77,18 +101,20 @@ export async function createServer(database: Database) {
   });
 
   // Update a task
-  app.put("/tasks/:id", async (req, res) => {
+  app.put("/tasks/:id", async (req, res): Promise<void> => {
     try {
       const { id } = req.params;
 
-      const previous = await getTask.get([id]);
-      const updates = req.body;
+      const previous = TaskSchema.parse(await getTask.get([id]));
+      const updates: UpdateTask = UpdateTaskSchema.parse(req.body);
       const task = { ...previous, ...updates };
 
       await updateTask.run([task.title, task.description, task.completed, id]);
-      return res.status(200).json({ message: "Task updated successfully" });
+      res.status(200).json({ message: "Task updated successfully" });
+      return;
     } catch (error) {
-      return handleError(req, res, error);
+      handleError(req, res, error);
+      return;
     }
   });
 
