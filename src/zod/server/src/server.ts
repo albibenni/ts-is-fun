@@ -23,7 +23,8 @@ export async function createServer(database: Database) {
     `UPDATE tasks SET title = ?, description = ?, completed = ? WHERE id = ?`,
   );
 
-  app.get("/tasks", async (req: Request, res: Response) => {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  app.get("/tasks", async (req: Request, res: Response): Promise<any> => {
     const { completed } = req.query;
     const query = completed === "true" ? completedTasks : incompleteTasks;
 
@@ -49,16 +50,29 @@ export async function createServer(database: Database) {
     }
   });
 
-  app.post("/tasks", async (req, res) => {
+  type CreateTaskRequestBody = {
+    title: string;
+    description?: string;
+  };
+  type CreateTaskRequest = Request<
+    object,
+    { message: string },
+    CreateTaskRequestBody
+  >;
+  app.post("/tasks", async (req: CreateTaskRequest, res): Promise<void> => {
     try {
       const task = req.body;
-      if (!task.title)
-        return res.status(400).json({ message: "Title is required" });
+      if (!task.title) {
+        res.status(400).json({ message: "Title is required" });
+        return;
+      }
 
       await createTask.run([task.title, task.description]);
-      return res.status(201).json({ message: "Task created successfully!" });
+      res.status(201).json({ message: "Task created successfully!" });
+      return;
     } catch (error) {
-      return handleError(req, res, error);
+      handleError(req, res, error);
+      return;
     }
   });
 
