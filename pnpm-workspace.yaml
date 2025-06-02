@@ -1,3 +1,10 @@
 packages:
-  - "src/zod/client"
-  - "src/zod/server"
+  - src/zod/client
+  - src/zod/server
+onlyBuiltDependencies:
+  - '@prisma/client'
+  - '@prisma/engines'
+  - '@scarf/scarf'
+  - '@tailwindcss/oxide'
+  - prisma
+  - sqlite3
