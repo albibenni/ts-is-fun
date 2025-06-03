@@ -1,7 +1,6 @@
 // tests/zod-challenges.test.ts
 import { describe, it, expect } from "vitest";
 import { z } from "zod/v4";
-import { email } from "zod/v4";
 
 describe("Basic Zod (Exercises)", () => {
   /**
@@ -367,7 +366,7 @@ describe("Basic Zod (Exercises)", () => {
     .min(8)
     .refine((val) => /\d/.test(val), { message: "Must contain a digit" });
 
-  const emailSchema = z.string().email();
+  const emailSchema = z.email();
 
   const birthDateSchema = z
     .string()

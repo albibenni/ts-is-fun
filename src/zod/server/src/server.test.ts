@@ -109,13 +109,11 @@ describe("Tasks API", () => {
       const taskId = getAllResponse.body[0].id;
 
       // Update the task
-      const updateResponse = await request(app)
-        .put(`/tasks/${taskId}`)
-        .send({
-          title: "Updated Task",
-          description: "Updated Description",
-          completed: false,
-        });
+      const updateResponse = await request(app).put(`/tasks/${taskId}`).send({
+        title: "Updated Task",
+        description: "Updated Description",
+        completed: false,
+      });
       expect(updateResponse.status).toBe(200);
 
       // Verify the update

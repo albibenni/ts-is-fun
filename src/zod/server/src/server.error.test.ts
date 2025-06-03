@@ -40,13 +40,13 @@ describe("Server Error Handling", () => {
     it("should filter tasks by completed=true", async () => {
       // Create a completed task
       await database.exec(`
-        INSERT INTO tasks (title, description, completed) 
+        INSERT INTO tasks (title, description, completed)
         VALUES ('Completed Task', 'This task is done', 1)
       `);
 
       // Create an incomplete task
       await database.exec(`
-        INSERT INTO tasks (title, description, completed) 
+        INSERT INTO tasks (title, description, completed)
         VALUES ('Incomplete Task', 'This task is not done', 0)
       `);
 
@@ -171,7 +171,7 @@ describe("Server Error Handling", () => {
     it("should handle database errors", async () => {
       // First create a task so we have something to update
       await database.exec(`
-        INSERT INTO tasks (title, description, completed) 
+        INSERT INTO tasks (title, description, completed)
         VALUES ('Task to Update', 'Will throw error on update', 0)
       `);
 
@@ -222,7 +222,7 @@ describe("Server Error Handling", () => {
     it("should handle database errors", async () => {
       // First create a task so we have something to delete
       await database.exec(`
-        INSERT INTO tasks (title, description, completed) 
+        INSERT INTO tasks (title, description, completed)
         VALUES ('Task to Delete', 'Will throw error on delete', 0)
       `);
 

@@ -5,7 +5,7 @@ export interface Task {
   completed: boolean;
 }
 
-export type PartialTask = Partial<Omit<Task, 'id'>>;
+export type PartialTask = Partial<Omit<Task, "id">>;
 
 export interface Error {
   message: string;

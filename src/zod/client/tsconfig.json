@@ -51,5 +51,5 @@
     "noEmit": true
   },
   "include": ["src/**/*", "../server/**/*", "../shared/**/*"],
-  "exclude": ["node_modules", "dist", "**/*.test.ts"]
+  "exclude": ["node_modules", "dist", "**/*.test.ts", "eslint.config.js"]
 }

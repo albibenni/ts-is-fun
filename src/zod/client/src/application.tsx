@@ -1,6 +1,6 @@
-import { Header } from './components/header';
-import { TaskForm } from './components/task-form';
-import { TaskList } from './components/task-list';
+import { Header } from "./components/header";
+import { TaskForm } from "./components/task-form";
+import { TaskList } from "./components/task-list";
 
 export const Application = () => {
   return (

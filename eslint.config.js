@@ -3,6 +3,8 @@ import eslint from "@eslint/js";
 import eslintPluginPrettierRecommended from "eslint-plugin-prettier/recommended";
 import globals from "globals";
 import tseslint from "typescript-eslint";
+import reactPlugin from "eslint-plugin-react";
+import reactHooksPlugin from "eslint-plugin-react-hooks";
 
 export default tseslint.config(
   {
@@ -14,18 +16,34 @@ export default tseslint.config(
   {
     languageOptions: {
       globals: {
+        ...globals.browser,
+        ...globals.es2022,
         ...globals.node,
         ...globals.vitest,
+        React: "readonly",
       },
       ecmaVersion: "latest",
       sourceType: "module",
       parserOptions: {
+        ecmaFeatures: {
+          jsx: true,
+        },
         projectService: true,
         tsconfigRootDir: import.meta.dirname,
+        allowDefaultProject: ["*.js", "*.cjs", "**/eslint.config.js"],
       },
     },
   },
   {
+    plugins: {
+      react: reactPlugin,
+      "react-hooks": reactHooksPlugin,
+    },
+    settings: {
+      react: {
+        version: "detect",
+      },
+    },
     rules: {
       "@typescript-eslint/explicit-module-boundary-types": "off",
       "@typescript-eslint/no-inferrable-types": "off",

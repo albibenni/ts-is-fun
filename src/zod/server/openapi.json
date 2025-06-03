@@ -3,11 +3,7 @@
   "info": {
     "title": "Busy Bee API",
     "version": "1.0.0",
-    "description": "API for managing tasks",
-    "contact": {
-      "name": "Steve Kinney",
-      "email": "hello@stevekinney.net"
-    }
+    "description": "API for managing tasks"
   },
   "paths": {
     "/tasks": {
