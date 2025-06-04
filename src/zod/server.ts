@@ -3,33 +3,50 @@ import express from "express";
 import getPort from "get-port";
 import { fileURLToPath } from "url";
 import { v4 as uuidv4 } from "uuid";
+import { z } from "zod/v4";
 
 export const app = express();
+// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call
 const port = await getPort({ port: 3000 });
 
 app.use(bodyParser.json());
 
-interface User {
+type User = {
   id: string;
   name: string;
   email: string;
-}
+};
+
+const UserSchema = z.object({
+  id: z.uuidv4({ message: "ID is required" }),
+  name: z.string(),
+  email: z.string(),
+}) satisfies z.ZodType<User>;
+
+const UpdateUserSchema = UserSchema.partial().omit({ id: true });
+const CreateUserSchema = UserSchema.omit({ id: true });
+
+//type UpdateUser = z.infer<typeof UpdateUserSchema>;
 
 const users: User[] = [];
 
 // Create a new user
-app.post("/users", (req, res) => {
-  const { name, email } = req.body;
+app.post("/users", (req, res): void => {
+  const { name, email } = CreateUserSchema.parse(req.body);
 
   if (!name || !email) {
-    return res.status(400).json({ message: "Name and email are required" });
+    res.status(400).json({ message: "Name and email are required" });
+    return;
   }
 
-  const newUser: User = { id: uuidv4(), name, email };
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call
+  const id: string = uuidv4();
+  const newUser: User = { id, name, email };
 
   users.push(newUser);
 
   res.status(201).json(newUser);
+  return;
 });
 
 // Read all users
@@ -54,29 +71,31 @@ app.get("/users", (req, res) => {
 });
 
 // Read a single user by ID
-app.get("/users/:id", (req, res) => {
+app.get("/users/:id", (req, res): void => {
   const { id } = req.params;
 
   const user = users.find((u) => u.id === id);
 
   if (!user) {
-    return res.status(404).json({ message: "User not found" });
+    res.status(404).json({ message: "User not found" });
+    return;
   }
 
   res.json(user);
 });
 
 // Update a user by ID
-app.put("/users/:id", (req, res) => {
+app.put("/users/:id", (req, res): void => {
   const { id } = req.params;
 
   const user = users.find((u) => u.id === id);
 
   if (!user) {
-    return res.status(404).json({ message: "User not found" });
+    res.status(404).json({ message: "User not found" });
+    return;
   }
 
-  const { name, email } = req.body;
+  const { name, email } = UpdateUserSchema.parse(req.body);
 
   if (name) user.name = name;
   if (email) user.email = email;
@@ -85,13 +104,14 @@ app.put("/users/:id", (req, res) => {
 });
 
 // Delete a user by ID
-app.delete("/users/:id", (req, res) => {
+app.delete("/users/:id", (req, res): void => {
   const id = req.params.id;
 
   const index = users.findIndex((u) => u.id === id);
 
   if (index === -1) {
-    return res.status(404).json({ message: "User not found" });
+    res.status(404).json({ message: "User not found" });
+    return;
   }
 
   users.splice(index, 1);
