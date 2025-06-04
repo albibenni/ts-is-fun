@@ -12,19 +12,11 @@ import {
   UpdateTaskSchema,
 } from "../../shared/schemas.ts";
 import { handleError } from "./handle-error.ts";
-import openApiValidator from "express-openapi-validator";
 
 export async function createServer(database: Database) {
   const app = express();
   app.use(cors());
   app.use(express.json());
-  app.use(
-    openApiValidator.middleware({
-      apiSpec: "./openapi.json",
-      validateRequests: true, // default
-      validateResponses: false, // default
-    }),
-  );
 
   const incompleteTasks = await database.prepare(
     "SELECT * FROM tasks whERE completed = 0",
