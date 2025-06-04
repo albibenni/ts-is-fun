@@ -1,7 +1,7 @@
 import cors from "cors";
 import express from "express";
 import { handleError } from "./handle-error.ts";
-import type { Request, Response } from "express";
+import type { NextFunction, Request, RequestHandler, Response } from "express";
 import type { Database } from "sqlite";
 import type { CreateTask, UpdateTask } from "../../shared/schemas.ts";
 import {
@@ -9,6 +9,7 @@ import {
   TaskSchema,
   UpdateTaskSchema,
 } from "../../shared/schemas.ts";
+import { type ZodSchema, type ZodType } from "zod/v4";
 
 export async function createServer(database: Database) {
   const app = express();
@@ -30,6 +31,92 @@ export async function createServer(database: Database) {
     `UPDATE tasks SET title = ?, description = ?, completed = ? WHERE id = ?`,
   );
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const validateCreateTask: RequestHandler<object, unknown, CreateTask> = (
+    req,
+    res,
+    next,
+  ) => {
+    try {
+      const body = CreateTaskSchema.parse(req.body);
+      next();
+    } catch (error) {
+      handleError(req, res, error);
+    }
+  };
+
+  /// HUGE
+  const validateBodyMiddleware =
+    <T>(schema: ZodType<T>): RequestHandler<NonNullable<unknown>, unknown, T> =>
+    (req, res, next) => {
+      try {
+        const body = schema.parse(req.body);
+        next();
+      } catch (error) {
+        handleError(req, res, error);
+      }
+    };
+
+  const validateBody =
+    <T>(
+      schema: ZodSchema<T>,
+    ): RequestHandler<NonNullable<unknown>, NonNullable<unknown>, T> =>
+    (request: Request, response: Response, next: NextFunction) => {
+      try {
+        schema.parse(request.body);
+        next();
+      } catch (error) {
+        handleError(request, response, error);
+      }
+    };
+
+  const validateParamMiddleware =
+    <T>(schema: ZodType<T>): RequestHandler<T> =>
+    (req, res, next) => {
+      try {
+        const params = schema.parse(req.params);
+        next();
+      } catch (error) {
+        handleError(req, res, error);
+      }
+    };
+
+  type ValidationOptions = {
+    body?: ZodSchema;
+    params?: ZodSchema;
+    query?: ZodSchema;
+  };
+
+  /**
+   * Creates a middleware to validate multiple parts of a request against Zod schemas
+   * @param schemas Object containing optional Zod schemas for body, params, and query
+   * @returns Express middleware that validates the specified parts of the request
+   */
+  const validate = (schemas: ValidationOptions) => {
+    return (req: Request, res: Response, next: NextFunction) => {
+      try {
+        if (schemas.body) {
+          const validatedBody = schemas.body.parse(req.body);
+          // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+          req.body = validatedBody as Request["body"];
+        }
+
+        if (schemas.params) {
+          const validatedParams = schemas.params.parse(req.params);
+          req.params = validatedParams as Request["params"];
+        }
+
+        if (schemas.query) {
+          const validatedQuery = schemas.query.parse(req.query);
+          req.query = validatedQuery as Request["query"];
+        }
+
+        next();
+      } catch (error) {
+        return handleError(req, res, error);
+      }
+    };
+  };
   app.get("/tasks", async (req: Request, res: Response): Promise<void> => {
     const { completed } = req.query;
     const query = completed === "true" ? completedTasks : incompleteTasks;
@@ -73,40 +160,55 @@ export async function createServer(database: Database) {
   //   { message: string },
   //   CreateTaskRequestBody
   // >;
-  app.post("/tasks", async (req, res): Promise<void> => {
-    try {
-      const task: CreateTask = CreateTaskSchema.parse(req.body);
-      if (!task.title) {
-        res.status(400).json({ message: "Title is required" });
+  app.post(
+    "/tasks",
+    validate({
+      body: TaskSchema,
+    } as ValidationOptions),
+    async (req, res): Promise<void> => {
+      try {
+        const task = req.body; // the middleware does the validation for us
+        if (!task.title) {
+          res.status(400).json({ message: "Title is required" });
+          return;
+        }
+
+        await createTask.run([task.title, task.description]);
+        res.status(201).json({ message: "Task created successfully!" });
+        return;
+      } catch (error) {
+        handleError(req, res, error);
         return;
       }
-
-      await createTask.run([task.title, task.description]);
-      res.status(201).json({ message: "Task created successfully!" });
-      return;
-    } catch (error) {
-      handleError(req, res, error);
-      return;
-    }
-  });
+    },
+  );
 
   // Update a task
-  app.put("/tasks/:id", async (req, res): Promise<void> => {
-    try {
-      const { id } = req.params;
+  app.put(
+    "/tasks/:id",
+    validateParamMiddleware(TaskSchema.pick({ id: true })),
+    async (req, res): Promise<void> => {
+      try {
+        const { id } = req.params;
 
-      const previous = TaskSchema.parse(await getTask.get([id]));
-      const updates: UpdateTask = UpdateTaskSchema.parse(req.body);
-      const task = { ...previous, ...updates };
+        const previous = TaskSchema.parse(await getTask.get([id]));
+        const updates: UpdateTask = UpdateTaskSchema.parse(req.body);
+        const task = { ...previous, ...updates };
 
-      await updateTask.run([task.title, task.description, task.completed, id]);
-      res.status(200).json({ message: "Task updated successfully" });
-      return;
-    } catch (error) {
-      handleError(req, res, error);
-      return;
-    }
-  });
+        await updateTask.run([
+          task.title,
+          task.description,
+          task.completed,
+          id,
+        ]);
+        res.status(200).json({ message: "Task updated successfully" });
+        return;
+      } catch (error) {
+        handleError(req, res, error);
+        return;
+      }
+    },
+  );
 
   // Delete a task
   app.delete("/tasks/:id", async (req, res): Promise<void> => {

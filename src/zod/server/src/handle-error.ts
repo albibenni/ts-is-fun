@@ -66,7 +66,7 @@ export const handleError = <
       message: "Validation error",
       code: "VALIDATION_ERROR",
       errors: formattedErrors,
-    });
+    }) as Response<ErrorResponseBody>;
   }
 
   // Handle standard errors
@@ -86,7 +86,7 @@ export const handleError = <
   return response.status(500).json({
     message,
     code: "INTERNAL_SERVER_ERROR",
-  });
+  }) as Response<ErrorResponseBody>;
 };
 
 export const ErrorResponseSchema = z
