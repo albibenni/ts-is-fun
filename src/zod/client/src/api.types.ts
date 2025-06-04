@@ -622,4 +622,5 @@ export type $defs = Record<string, never>;
 export type operations = Record<string, never>;
 
 // solution to clutter generation
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 type TaskEG = components["schemas"]["Task"];

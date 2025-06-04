@@ -1,7 +1,7 @@
 import createClient from "openapi-fetch";
 import type { paths } from "./api.types";
 
-const { GET, POST, PUT, DELETE } = createClient<paths>({
+const { GET, POST } = createClient<paths>({
   baseUrl: "http://localhost:4001",
 });
 
