@@ -7,7 +7,10 @@ export const TaskSchema = z.object({
   completed: z.coerce.boolean().default(false),
 });
 
+export const Test = z.array(z.string());
+
 export const CreateTaskSchema = TaskSchema.omit({ id: true });
+export const TaskParamsSchema = TaskSchema.partial();
 export const UpdateTaskSchema = TaskSchema.partial().omit({ id: true });
 export const TaskListSchema = z.array(TaskSchema);
 
