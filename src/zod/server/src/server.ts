@@ -33,6 +33,9 @@ export async function createServer(database: Database) {
     `UPDATE tasks SET title = ?, description = ?, completed = ? WHERE id = ?`,
   );
 
+  //FIX: https://github.com/colinhacks/zod/issues/4532
+  //FIX: https://github.com/colinhacks/zod/issues/4546
+
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const validateCreateTask: RequestHandler<object, unknown, CreateTask> = (
     req,
