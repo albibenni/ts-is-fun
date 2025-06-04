@@ -3,12 +3,12 @@ import express from "express";
 import { handleError } from "./handle-error.ts";
 import type { Request, Response } from "express";
 import type { Database } from "sqlite";
-import type { CreateTask, UpdateTask } from "src/zod/shared/schemas.ts";
+import type { CreateTask, UpdateTask } from "../../shared/schemas.ts";
 import {
   CreateTaskSchema,
   TaskSchema,
   UpdateTaskSchema,
-} from "src/zod/shared/schemas.ts";
+} from "../../shared/schemas.ts";
 
 export async function createServer(database: Database) {
   const app = express();
@@ -48,6 +48,7 @@ export async function createServer(database: Database) {
   app.get("/tasks/:id", async (req: Request, res: Response): Promise<void> => {
     try {
       const { id } = req.params;
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
       const task = await getTask.get([id]);
 
       if (!task) {
@@ -108,13 +109,15 @@ export async function createServer(database: Database) {
   });
 
   // Delete a task
-  app.delete("/tasks/:id", async (req, res) => {
+  app.delete("/tasks/:id", async (req, res): Promise<void> => {
     try {
       const { id } = req.params;
       await deleteTask.run([id]);
-      return res.status(200).json({ message: "Task deleted successfully" });
+      res.status(200).json({ message: "Task deleted successfully" });
+      return;
     } catch (error) {
-      return handleError(req, res, error);
+      handleError(req, res, error);
+      return;
     }
   });
 

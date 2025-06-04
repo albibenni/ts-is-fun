@@ -6,7 +6,6 @@ import { v4 as uuidv4 } from "uuid";
 import { z } from "zod/v4";
 
 export const app = express();
-// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call
 const port = await getPort({ port: 3000 });
 
 app.use(bodyParser.json());
@@ -39,7 +38,6 @@ app.post("/users", (req, res): void => {
     return;
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call
   const id: string = uuidv4();
   const newUser: User = UserSchema.parse({ id, name, email });
 
