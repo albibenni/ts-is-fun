@@ -22,8 +22,8 @@ const UserSchema = z.object({
   name: z.string(),
   email: z.string(),
 }) satisfies z.ZodType<User>;
-
-const UpdateUserSchema = UserSchema.partial().omit({ id: true });
+const UserId = UserSchema.pick({ id: true });
+const PartialUserSchema = UserSchema.partial().omit({ id: true });
 const CreateUserSchema = UserSchema.omit({ id: true });
 
 //type UpdateUser = z.infer<typeof UpdateUserSchema>;
@@ -41,29 +41,28 @@ app.post("/users", (req, res): void => {
 
   // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call
   const id: string = uuidv4();
-  const newUser: User = { id, name, email };
+  const newUser: User = UserSchema.parse({ id, name, email });
 
   users.push(newUser);
 
   res.status(201).json(newUser);
-  return;
 });
 
 // Read all users
 app.get("/users", (req, res) => {
-  const { name, email } = req.query;
+  const { name, email } = PartialUserSchema.parse(req.query);
 
   let filteredUsers = users;
 
   if (name) {
     filteredUsers = filteredUsers.filter((user) =>
-      user.name.toLowerCase().includes((name as string).toLowerCase()),
+      user.name.toLowerCase().includes(name.toLowerCase()),
     );
   }
 
   if (email) {
     filteredUsers = filteredUsers.filter((user) =>
-      user.email.toLowerCase().includes((email as string).toLowerCase()),
+      user.email.toLowerCase().includes(email.toLowerCase()),
     );
   }
 
@@ -72,7 +71,7 @@ app.get("/users", (req, res) => {
 
 // Read a single user by ID
 app.get("/users/:id", (req, res): void => {
-  const { id } = req.params;
+  const { id } = UserId.parse(req.params);
 
   const user = users.find((u) => u.id === id);
 
@@ -95,7 +94,7 @@ app.put("/users/:id", (req, res): void => {
     return;
   }
 
-  const { name, email } = UpdateUserSchema.parse(req.body);
+  const { name, email } = PartialUserSchema.parse(req.body);
 
   if (name) user.name = name;
   if (email) user.email = email;
@@ -105,7 +104,7 @@ app.put("/users/:id", (req, res): void => {
 
 // Delete a user by ID
 app.delete("/users/:id", (req, res): void => {
-  const id = req.params.id;
+  const { id } = UserId.parse(req.params);
 
   const index = users.findIndex((u) => u.id === id);
 
