@@ -1,19 +1,7 @@
-import z from "zod/v4";
+import type { Task, UpdateTask, TaskList } from "@shared/schemas";
+import { TaskListSchema } from "@shared/schemas";
 
 const API_URL = "http://localhost:4001";
-
-export const TaskSchema = z.object({
-  id: z.coerce.number(),
-  title: z.string(),
-  description: z.string().optional(),
-  completed: z.coerce.boolean().default(false),
-});
-
-export const CreateTaskSchema = TaskSchema.omit({ id: true });
-export const UpdateTaskSchema = TaskSchema.partial().omit({ id: true });
-export const TaskListSchema = z.array(TaskSchema);
-
-type TaskList = z.infer<typeof TaskListSchema>;
 
 export const fetchTasks = async (showCompleted: boolean): Promise<TaskList> => {
   const url = new URL(`/tasks`, API_URL);
@@ -43,7 +31,7 @@ export const getTask = async (id: string): Promise<Task> => {
   return response.json();
 };
 
-export const createTask = async (task: PartialTask): Promise<void> => {
+export const createTask = async (task: UpdateTask): Promise<void> => {
   const url = new URL("/tasks", API_URL);
 
   const response = await fetch(url, {
@@ -61,7 +49,7 @@ export const createTask = async (task: PartialTask): Promise<void> => {
 
 export const updateTask = async (
   id: string,
-  task: PartialTask,
+  task: UpdateTask,
 ): Promise<void> => {
   const url = new URL(`/tasks/${id}`, API_URL);
 

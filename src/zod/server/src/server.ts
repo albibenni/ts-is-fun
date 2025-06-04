@@ -3,23 +3,12 @@ import express from "express";
 import { handleError } from "./handle-error.ts";
 import type { Request, Response } from "express";
 import type { Database } from "sqlite";
-import { z } from "zod/v4";
-
-export const TaskSchema = z.object({
-  id: z.number(),
-  title: z.string(),
-  completed: z.coerce.boolean().default(false),
-  description: z.string().optional(),
-});
-
-export const CreateTaskSchema = TaskSchema.omit({ id: true });
-export const UpdateTaskSchema = TaskSchema.partial().omit({ id: true });
-export const TaskListSchema = z.array(TaskSchema);
-
-export type Task = z.infer<typeof TaskSchema>;
-export type CreateTask = z.infer<typeof CreateTaskSchema>;
-export type UpdateTask = z.infer<typeof UpdateTaskSchema>;
-export type TaskListSchema = z.infer<typeof TaskListSchema>;
+import type { CreateTask, UpdateTask } from "src/zod/shared/schemas.ts";
+import {
+  CreateTaskSchema,
+  TaskSchema,
+  UpdateTaskSchema,
+} from "src/zod/shared/schemas.ts";
 
 export async function createServer(database: Database) {
   const app = express();
