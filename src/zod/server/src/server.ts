@@ -52,7 +52,6 @@ export async function createServer(database: Database) {
   };
 
   /// HUGE
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const validateBody =
     <T extends ZodRawShape>(
       schema: ZodObject<T>,
@@ -98,7 +97,7 @@ export async function createServer(database: Database) {
     ): RequestHandler<object, unknown, unknown, Request["query"] & T> =>
     (request, response, next): void => {
       try {
-        //request.query = sschema.parse(request.query) as Request["query"];
+        //request.query = schema.parse(request.query) as Request["query"];
         schema.parse(request.query) as Request["query"];
         next();
       } catch (error) {
@@ -206,6 +205,7 @@ export async function createServer(database: Database) {
     async (req, res): Promise<void> => {
       try {
         const task = req.body; // the middleware does the validation for us
+        // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
         if (!task.title) {
           res.status(400).json({ message: "Title is required" });
           return;
