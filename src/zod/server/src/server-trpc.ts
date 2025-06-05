@@ -2,7 +2,7 @@ import cors from "cors";
 import type { Request, RequestHandler, Response } from "express";
 import express from "express";
 import type { Database } from "sqlite";
-import { boolean, type ZodObject, type ZodRawShape } from "zod/v4";
+import { type ZodObject, type ZodRawShape } from "zod/v4";
 import type { UpdateTask } from "../../shared/schemas.ts";
 import {
   CreateTaskSchema,
@@ -12,18 +12,14 @@ import {
 } from "../../shared/schemas.ts";
 import { handleError } from "./handle-error.ts";
 import { TaskClient } from "./client.ts";
+import { createTRPCAdapter } from "./trpc/trpc-adapter.ts";
 
 export async function createServer(database: Database) {
   const app = express();
   app.use(cors());
   app.use(express.json());
+  app.use("/api", createTRPCAdapter());
 
-  const incompleteTasks = await database.prepare(
-    "SELECT * FROM tasks whERE completed = 0",
-  );
-  const completedTasks = await database.prepare(
-    "SELECT * FROM tasks WHERE completed = 1",
-  );
   const getTask = await database.prepare("SELECT * FROM tasks WHERE id = ?");
   const createTask = await database.prepare(
     "INSERT INTO tasks (title, description) VALUES (?, ?)",
