@@ -12,19 +12,21 @@ import {
   UpdateTaskSchema,
 } from "../../shared/schemas.ts";
 import { handleError } from "./handle-error.ts";
-import openApiValidator from "express-openapi-validator";
+// import openApiValidator from "express-openapi-validator";
+import { openApi } from "../../shared/index.ts" with { type: "json" }; //??
+import swaggerUi from "swagger-ui-express";
 
 export async function createServer(database: Database) {
   const app = express();
   app.use(cors());
   app.use(express.json());
-  app.use(
-    openApiValidator.middleware({
-      apiSpec: "./openapi.json",
-      validateRequests: true, // default
-      validateResponses: false, // default
-    }),
-  );
+  // app.use(
+  //   openApiValidator.middleware({
+  //     apiSpec: "./openapi.json",
+  //     validateRequests: true, // default
+  //     validateResponses: false, // default
+  //   }),
+  // );
 
   const incompleteTasks = await database.prepare(
     "SELECT * FROM tasks whERE completed = 0",
@@ -152,6 +154,12 @@ export async function createServer(database: Database) {
       }
     };
   };
+  app.use(
+    "/api-docs",
+    swaggerUi.serve,
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+    swaggerUi.setup(openApi, { explorer: true }),
+  );
   app.get(
     "/tasks",
     validateQuery(TaskSchema.pick({ completed: true })),
