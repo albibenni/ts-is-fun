@@ -14,7 +14,7 @@ export const router = t.router;
 export const publicProcedure = t.procedure;
 
 export const taskRouter = router({
-  getTask: publicProcedure
+  getTasks: publicProcedure
     .input(TaskListQuerySchema)
     .query(async ({ input, ctx }) => {
       const { tasks } = ctx;
