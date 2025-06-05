@@ -12,7 +12,12 @@ export const Test = z.array(z.string());
 export const CreateTaskSchema = TaskSchema.omit({ id: true });
 export const TaskParamsSchema = TaskSchema.partial();
 export const UpdateTaskSchema = TaskSchema.partial().omit({ id: true });
+
 export const TaskListSchema = z.array(TaskSchema);
+
+export const TaskListQuerySchema = z.object({
+  completed: z.coerce.boolean().optional(),
+});
 
 export type Task = z.infer<typeof TaskSchema>;
 export type TaskList = z.infer<typeof TaskListSchema>;
