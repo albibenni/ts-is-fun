@@ -2,7 +2,7 @@ import cors from "cors";
 import type { Request, RequestHandler, Response } from "express";
 import express from "express";
 import type { Database } from "sqlite";
-import type { ZodObject, ZodRawShape } from "zod/v4";
+import { boolean, type ZodObject, type ZodRawShape } from "zod/v4";
 import type { UpdateTask } from "../../shared/schemas.ts";
 import {
   CreateTaskSchema,
@@ -11,6 +11,7 @@ import {
   UpdateTaskSchema,
 } from "../../shared/schemas.ts";
 import { handleError } from "./handle-error.ts";
+import { TaskClient } from "./client.ts";
 
 export async function createServer(database: Database) {
   const app = express();
@@ -70,15 +71,23 @@ export async function createServer(database: Database) {
         return;
       }
     };
+
+  // TRPC
+
+  const client = new TaskClient(database);
+
   app.get(
     "/tasks",
     validateQuery(TaskSchema.pick({ completed: true })),
     async (req: Request, res: Response): Promise<void> => {
       const { completed } = req.query;
-      const query = completed === "true" ? completedTasks : incompleteTasks;
+      //const query = completed === "true" ? completedTasks : incompleteTasks;
 
       try {
-        const tasks = await query.all();
+        //const tasks = await query.all();
+        const tasks = await client.getAllTasks({
+          completed: completed === "true",
+        });
         res.json(tasks);
         return;
       } catch (error) {
