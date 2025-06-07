@@ -230,7 +230,7 @@ describe("Basic Zod (Exercises)", () => {
   const userIdSchema = z.string().uuid().brand<"UserId">();
   type UserId = z.infer<typeof userIdSchema>; // string & { __brand: "UserId" }
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars, @typescript-eslint/ban-ts-comment
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   //@ts-ignore
   const x: UserId = "lol"; // ERROR - must be id
 
