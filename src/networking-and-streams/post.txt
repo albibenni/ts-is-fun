@@ -1,0 +1,6 @@
+POST /form HTTP/1.1
+Host: localhost:8080
+Content-Length: 53
+Content-Type: application/x-www-form-urlencoded
+
+title=whatever&date=1754814567561&body=beep%20boop%21
