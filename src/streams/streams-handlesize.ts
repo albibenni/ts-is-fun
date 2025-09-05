@@ -7,9 +7,14 @@ const server = http.createServer((req, res) => {
   req.pipe(counter()).pipe(concat({ encoding: "string" }, onbody));
   function counter() {
     let size = 0;
-    return through(function (buf, enc, next) {
-      size += buf.length as number;
+    return through(function (
+      buf: Buffer,
+      enc: string,
+      next: (err?: Error | null, chunk?: any) => void,
+    ) {
+      size += buf.length;
       if (size > 20) {
+        console.log("too big");
         next(null, null);
       } else {
         next(null, buf);
@@ -17,9 +22,12 @@ const server = http.createServer((req, res) => {
     });
   }
 
-  function onbody(body) {
+  function onbody(body: string) {
     const params = querystring.parse(body);
     console.log(params);
-    res.end(`hello ${params}\n`);
+    res.end(`hello\n`);
   }
 });
+
+server.listen(3000);
+console.log("listening on http://localhost:3000");
