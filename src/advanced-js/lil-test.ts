@@ -8,4 +8,3 @@ function transformToObjects(numberArray: number[]) {
 
 const res = transformToObjects([1, 2, 4]);
 console.log(res);
-
