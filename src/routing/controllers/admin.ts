@@ -1,5 +1,5 @@
 import type { Request, Response } from "express";
-import Product, { ProductSchema } from "../models/product.js";
+import Product, { ProductSchema } from "../models/product.ts";
 
 export const getAddProduct = (req: Request, res: Response) => {
   res.render("admin/add-product", {

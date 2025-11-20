@@ -5,8 +5,8 @@
   "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon app.js",
-    "start-server": "node app.js"
+    "start": "nodemon --exec node app.ts",
+    "start-server": "node app.ts"
   },
   "license": "ISC",
   "devDependencies": {

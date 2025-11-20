@@ -1,6 +1,7 @@
 packages:
   - src/zod/client
   - src/zod/server
+  - src/routing
 onlyBuiltDependencies:
   - '@prisma/client'
   - '@prisma/engines'

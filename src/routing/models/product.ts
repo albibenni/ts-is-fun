@@ -19,6 +19,7 @@ const getProductsFromFile = (cb: (products: Product[]) => void) => {
 };
 
 export const ProductSchema = z.object({
+  id: z.string(),
   title: z.string().min(2).max(100),
   imageUrl: z.url(),
   description: z.string().min(5).max(500),
@@ -26,6 +27,7 @@ export const ProductSchema = z.object({
 });
 
 export default class Product {
+  id: string;
   title: string;
   imageUrl: string;
   description: string;
@@ -41,9 +43,11 @@ export default class Product {
     this.imageUrl = imageUrl;
     this.description = description;
     this.price = price;
+    this.id = "0";
   }
 
   save() {
+    this.id = Math.random().toString();
     getProductsFromFile((products: Product[]) => {
       products.push(this);
       fs.writeFile(p, JSON.stringify(products), (err) => {

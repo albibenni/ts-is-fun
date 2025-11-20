@@ -4,9 +4,9 @@ import { fileURLToPath } from "url";
 import express from "express";
 import bodyParser from "body-parser";
 
-import * as errorController from "./controllers/error.js";
-import adminRoutes from "./routes/admin.js";
-import shopRoutes from "./routes/shop.js";
+import * as errorController from "./controllers/error.ts";
+import adminRoutes from "./routes/admin.ts";
+import shopRoutes from "./routes/shop.ts";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
