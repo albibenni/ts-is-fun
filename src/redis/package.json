@@ -1,0 +1,24 @@
+{
+  "name": "redis-leaderboard",
+  "version": "1.0.0",
+  "description": "Real-time leaderboard with Redis",
+  "main": "server.ts",
+  "type": "module",
+  "scripts": {
+    "dev": "node ./src/server.ts",
+    "client": "node ./client/client.ts",
+    "server:dev": "nodemon server.ts",
+    "compose": "docker compose down & docker compose up -d"
+  },
+  "dependencies": {
+    "cors": "2.8.5",
+    "express": "5.1.0",
+    "redis": "5.10.0",
+    "ws": "8.18.3"
+  },
+  "devDependencies": {
+    "@types/express": "5.0.0",
+    "@types/ws": "8.18.1",
+    "nodemon": "3.1.11"
+  }
+}
