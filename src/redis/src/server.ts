@@ -58,74 +58,70 @@ await subscriber.subscribe("leaderboard:updates", (message: string) => {
 });
 
 // API endpoint to submit score
-app.post("/api/score", (req: Request, res: Response) => {
-  void (async () => {
-    try {
-      const { playerId, playerName, score } = req.body as {
-        playerId?: string;
-        playerName?: string;
-        score?: number;
-      };
+app.post("/api/score", async (req: Request, res: Response) => {
+  try {
+    const { playerId, playerName, score } = req.body as {
+      playerId?: string;
+      playerName?: string;
+      score?: number;
+    };
 
-      if (!playerId || !playerName || typeof score !== "number") {
-        res.status(400).json({ error: "Invalid input" });
-        return;
-      }
-
-      // Update leaderboard
-      await client.zAdd("leaderboard", { score, value: playerId });
-
-      // Store player name (hash)
-      await client.hSet(`player:${playerId}`, "name", playerName);
-
-      // Get top 10 with scores
-      const top10 = await client.zRangeWithScores("leaderboard", 0, 9, {
-        REV: true,
-      });
-
-      // Publish update
-      const update: LeaderboardUpdate = {
-        type: "SCORE_UPDATE",
-        playerId,
-        playerName,
-        score,
-        leaderboard: top10.map((item) => `${item.value}:${item.score}`),
-      };
-
-      await client.publish("leaderboard:updates", JSON.stringify(update));
-
-      res.json({ success: true });
-    } catch (error) {
-      console.error("Error:", error);
-      res.status(500).json({ error: "Server error" });
+    if (!playerId || !playerName || typeof score !== "number") {
+      res.status(400).json({ error: "Invalid input" });
+      return;
     }
-  })();
+
+    // Update leaderboard
+    await client.zAdd("leaderboard", { score, value: playerId });
+
+    // Store player name (hash)
+    await client.hSet(`player:${playerId}`, "name", playerName);
+
+    // Get top 10 with scores
+    const top10 = await client.zRangeWithScores("leaderboard", 0, 9, {
+      REV: true,
+    });
+
+    // Publish update
+    const update: LeaderboardUpdate = {
+      type: "SCORE_UPDATE",
+      playerId,
+      playerName,
+      score,
+      leaderboard: top10.map((item) => `${item.value}:${item.score}`),
+    };
+
+    await client.publish("leaderboard:updates", JSON.stringify(update));
+
+    res.json({ success: true });
+  } catch (error) {
+    console.error("Error:", error);
+    res.status(500).json({ error: "Server error" });
+  }
 });
 
 // Get current leaderboard
-app.get("/api/leaderboard", (_req: Request, res: Response) => {
-  void (async () => {
-    try {
-      const top10 = await client.zRangeWithScores("leaderboard", 0, 9, {
-        REV: true,
-      });
+app.get("/api/leaderboard", async (_req: Request, res: Response) => {
+  try {
+    const top10 = await client.zRangeWithScores("leaderboard", 0, 9, {
+      REV: true,
+    });
 
-      // Get player names
-      const leaderboard = await Promise.all(
-        top10.map(async (item) => {
-          const name = await client.hGet(`player:${item.value}`, "name");
-          return {
-            playerId: item.value,
-            playerName: name || "Unknown",
-            score: item.score,
-          };
-        }),
-      );
+    // Get player names
+    const leaderboard = await Promise.all(
+      top10.map(async (item) => {
+        const name = await client.hGet(`player:${item.value}`, "name");
+        return {
+          playerId: item.value,
+          playerName: name || "Unknown",
+          score: item.score,
+        };
+      }),
+    );
 
-      res.json(leaderboard);
-    } catch (error) {
-      console.error("Error:", error);
-      res.status(500).json({ error: "Server error" });
-    }
-  })();
+    res.json(leaderboard);
+  } catch (error) {
+    console.error("Error:", error);
+    res.status(500).json({ error: "Server error" });
+  }
 });
