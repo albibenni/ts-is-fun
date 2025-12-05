@@ -3,6 +3,7 @@ packages:
   - src/zod/server
   - src/routing
   - src/redis
+  - src/react-lab
 onlyBuiltDependencies:
   - '@prisma/client'
   - '@prisma/engines'
