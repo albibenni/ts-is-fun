@@ -1,4 +1,5 @@
 import { z } from "zod/v4";
+
 export class Logger {
   private static loggerInstance: Logger | undefined = undefined;
   private logs: TLog[];
@@ -10,6 +11,7 @@ export class Logger {
     const timestamp = new Date().toISOString();
     const log: TLog = { message, timestamp };
     instance.logs.push(log);
+    console.log(log.message, "-", log.timestamp);
   }
   private static getInstance(): Logger {
     if (!this.loggerInstance) {
